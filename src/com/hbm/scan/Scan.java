@@ -23,6 +23,9 @@ import java.net.NetworkInterface;
 import java.util.Collection;
 import java.util.Iterator;
 
+import android.content.Intent;
+import android.net.Uri;
+
 public class Scan extends ListActivity {
 
 	private static final String TAG = "Scan";
@@ -48,6 +51,9 @@ public class Scan extends ListActivity {
 
 		ModuleListAdapter adapter = new ModuleListAdapter(this);
 		setListAdapter(adapter);
+
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.heise.de"));
+		startActivity(browserIntent);
 
 		LoadFeedData loadFeedData = new LoadFeedData(adapter);
 		loadFeedData.execute();
