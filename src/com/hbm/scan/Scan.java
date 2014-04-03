@@ -18,8 +18,12 @@ import android.util.Log;
 
 
 import com.hbm.devices.scan.IPv4ScanInterfaces;
+import com.hbm.devices.scan.ScanConstants;
+import com.hbm.devices.scan.StringMessageMulticastReceiver;
+
 import java.net.SocketException;
 import java.net.NetworkInterface;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -54,6 +58,11 @@ public class Scan extends ListActivity {
 
 		LoadFeedData loadFeedData = new LoadFeedData(adapter);
 		loadFeedData.execute();
+		try {
+			StringMessageMulticastReceiver smr = new StringMessageMulticastReceiver(ScanConstants.SCAN_ADDRESS, ScanConstants.SCAN_PORT);
+		} catch (IOException e) {
+
+		}
 	}
 
 	@Override
