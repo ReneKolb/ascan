@@ -52,9 +52,6 @@ public class Scan extends ListActivity {
 		ModuleListAdapter adapter = new ModuleListAdapter(this);
 		setListAdapter(adapter);
 
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.heise.de"));
-		startActivity(browserIntent);
-
 		LoadFeedData loadFeedData = new LoadFeedData(adapter);
 		loadFeedData.execute();
 	}
@@ -97,7 +94,8 @@ public class Scan extends ListActivity {
 
 @Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
-		Log.d(TAG, "item click position: " + position + " id: " + id);
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.heise.de"));
+		startActivity(browserIntent);
 	}
 }
 
