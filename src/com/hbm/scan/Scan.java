@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.ViewGroup;
-
+import android.widget.ListView;
 import android.util.Log;
 
 
@@ -93,6 +93,11 @@ public class Scan extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy");
+	}
+
+@Override 
+    public void onListItemClick(ListView l, View v, int position, long id) {
+		Log.d(TAG, "item click position: " + position + " id: " + id);
 	}
 }
 
