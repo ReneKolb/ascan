@@ -30,6 +30,7 @@ import java.util.Iterator;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.view.WindowManager;
 
 public class Scan extends ListActivity {
 
@@ -91,6 +92,7 @@ public class Scan extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Log.d(TAG, "onResume");
 	}
 
