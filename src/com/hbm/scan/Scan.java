@@ -58,11 +58,9 @@ public class Scan extends ListActivity {
 
 		LoadFeedData loadFeedData = new LoadFeedData(adapter);
 		loadFeedData.execute();
-		try {
-			StringMessageMulticastReceiver smr = new StringMessageMulticastReceiver(ScanConstants.SCAN_ADDRESS, ScanConstants.SCAN_PORT);
-		} catch (IOException e) {
 
-		}
+		ScanThread st = new ScanThread();
+		st.start();
 	}
 
 	@Override
@@ -190,6 +188,18 @@ class Entry {
 
 	String getModuleName() {
 		return name;
+	}
+}
+
+class ScanThread extends Thread {
+
+	@Override
+	public void run() {
+		try {
+			StringMessageMulticastReceiver smr = new StringMessageMulticastReceiver(ScanConstants.SCAN_ADDRESS, ScanConstants.SCAN_PORT);
+			smr.start();
+		} catch (IOException e) {
+		}
 	}
 }
 
