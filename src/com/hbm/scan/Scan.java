@@ -19,7 +19,8 @@ import android.util.Log;
 
 import com.hbm.devices.scan.IPv4ScanInterfaces;
 import com.hbm.devices.scan.ScanConstants;
-import com.hbm.devices.scan.StringMessageMulticastReceiver;
+import com.hbm.devices.scan.AnnounceReceiver;
+import com.hbm.devices.scan.filter.JsonFilter;
 
 import java.net.SocketException;
 import java.net.NetworkInterface;
@@ -196,8 +197,10 @@ class ScanThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			StringMessageMulticastReceiver smr = new StringMessageMulticastReceiver(ScanConstants.SCAN_ADDRESS, ScanConstants.SCAN_PORT);
-			smr.start();
+		    AnnounceReceiver ar = new AnnounceReceiver();
+		    JsonFilter jf = new JsonFilter();
+		    ar.addObserver(jf);
+		    ar.start();
 		} catch (IOException e) {
 		}
 	}
