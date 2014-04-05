@@ -31,6 +31,7 @@ import java.util.Iterator;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.WindowManager;
+import android.graphics.Color;
 
 public class Scan extends ListActivity {
 
@@ -158,7 +159,9 @@ class ModuleListAdapter extends BaseAdapter {
 				itemView.findViewById(R.id.moduleName);
 
 			moduleType.setText(mEntries.get(position).getModuleType());
+			moduleType.setTextColor(Color.YELLOW);
 			moduleUUID.setText(mEntries.get(position).getModuleUUID());
+			moduleUUID.setBackgroundColor(Color.RED);
 			moduleName.setText(mEntries.get(position).getModuleName());
 
 			return itemView;
