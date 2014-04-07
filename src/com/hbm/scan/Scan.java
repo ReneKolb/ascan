@@ -20,13 +20,20 @@ import android.util.Log;
 import com.hbm.devices.scan.IPv4ScanInterfaces;
 import com.hbm.devices.scan.ScanConstants;
 import com.hbm.devices.scan.AnnounceReceiver;
+import com.hbm.devices.scan.FakeStringMessageMulticastReceiver;
 import com.hbm.devices.scan.filter.JsonFilter;
+import com.hbm.devices.scan.filter.Filter;
+import com.hbm.devices.scan.filter.FamilytypeMatch;
+import com.hbm.devices.scan.filter.AnnounceFilter;
+
 
 import java.net.SocketException;
 import java.net.NetworkInterface;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Observer;
+import java.util.Observable;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -42,20 +49,6 @@ public class Scan extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
-		try {
-			IPv4ScanInterfaces ifs = new IPv4ScanInterfaces();
-			Collection<NetworkInterface> interfaces = ifs.getInterfaces();
-        	Iterator<NetworkInterface> niIterator = interfaces.iterator();
-        	while (niIterator.hasNext()) {
-            	NetworkInterface ni = niIterator.next();
-				Log.d(TAG, ni.toString());
-        	}
-		} catch (SocketException e) {
-			Log.d(TAG, "SocketException");
-			Log.d(TAG, e.toString());
-			return;
-		}
-
 		ModuleListAdapter adapter = new ModuleListAdapter(this);
 		setListAdapter(adapter);
 
@@ -67,43 +60,13 @@ public class Scan extends ListActivity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.d(TAG, "onStart");
-	}
-
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-		Log.d(TAG, "onRestart");
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		Log.d(TAG, "onStop");
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Log.d(TAG, "onPause");
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Log.d(TAG, "onResume");
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Log.d(TAG, "onDestroy");
-	}
-
-@Override 
+	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.heise.de"));
 		startActivity(browserIntent);
@@ -197,18 +160,27 @@ class Entry {
 	}
 }
 
-class ScanThread extends Thread {
+class ScanThread extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		try {
-		    AnnounceReceiver ar = new AnnounceReceiver();
-		    JsonFilter jf = new JsonFilter();
-		    ar.addObserver(jf);
-		    ar.start();
-		} catch (IOException e) {
-		}
+		FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
+	    //AnnounceReceiver ar = new AnnounceReceiver();
+	    JsonFilter jf = new JsonFilter();
+		ar.addObserver(jf);
+		Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
+		jf.addObserver(ftFilter);
+		AnnounceFilter af = new AnnounceFilter();
+		ftFilter.addObserver(af);
+		af.addObserver(this);
+
+	    ar.start();
 	}
+
+	public void update(Observable o, Object arg) {
+
+	}
+
 }
 
 class LoadFeedData extends
