@@ -167,8 +167,9 @@ class ScanThread extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
-	    //AnnounceReceiver ar = new AnnounceReceiver();
+		//FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
+		try {
+	    AnnounceReceiver ar = new AnnounceReceiver();
 	    JsonFilter jf = new JsonFilter();
 		ar.addObserver(jf);
 		Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
@@ -178,6 +179,10 @@ class ScanThread extends Thread implements Observer {
 		af.addObserver(this);
 
 	    ar.start();
+		}
+		catch (Exception e) {
+
+		}
 	}
 
 	public void update(Observable o, Object arg) {
