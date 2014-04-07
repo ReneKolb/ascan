@@ -15,12 +15,5 @@
           android:layout_height="match_parent" >
           <!-- android:listSelector="@drawable/list_selector_background" -->
        </ListView>
-
-       <TextView
-          android:id="@android:id/empty"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="Loading feed data..." />
 </LinearLayout>
 
