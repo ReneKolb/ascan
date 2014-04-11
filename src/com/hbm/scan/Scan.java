@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.util.Log;
 
 import com.hbm.devices.scan.AnnouncePath;
 import com.hbm.devices.scan.AnnounceReceiver;
@@ -49,24 +48,41 @@ public class Scan extends ListActivity {
 
 	private static final String TAG = "Scan";
 	private ModuleListAdapter adapter;
+	private ScanThread scanThread;
  
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
 		adapter = new ModuleListAdapter(this);
 		setListAdapter(adapter);
+	}
 
-		ScanThread st = new ScanThread(adapter);
-		st.start();
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		Log.d(TAG, "onResume");
+
+		scanThread = new ScanThread(adapter);
+		scanThread.start();
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		scanThread.kill();
+		try {
+			scanThread.join();
+		} catch (InterruptedException e) {
+		}
+
 	}
 
 	@Override 
@@ -158,6 +174,7 @@ class ModuleListAdapter extends BaseAdapter {
 class ScanThread extends Thread implements Observer {
 	private ModuleListAdapter adapter;
 	ArrayList<AnnouncePath> entries;
+	AnnounceReceiver announceReceiver;
 
 	public ScanThread(ModuleListAdapter adapter) {
 		super("HBM scan thread");
@@ -168,21 +185,23 @@ class ScanThread extends Thread implements Observer {
 	@Override
 	public void run() {
 		try {
-			FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
-	    	//AnnounceReceiver ar = new AnnounceReceiver();
+			//FakeStringMessageMulticastReceiver announceReceiver = new FakeStringMessageMulticastReceiver();
+	    	announceReceiver = new AnnounceReceiver();
 	    	JsonFilter jf = new JsonFilter();
-			ar.addObserver(jf);
+			announceReceiver.addObserver(jf);
 			Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
 			jf.addObserver(ftFilter);
 			AnnounceFilter af = new AnnounceFilter();
 			ftFilter.addObserver(af);
 			af.addObserver(this);
-
-	    	ar.start();
+	    	announceReceiver.start();
 		}
 		catch (Exception e) {
-
 		}
+	}
+
+	public void kill() {
+		announceReceiver.stop();
 	}
 
 	public void update(Observable o, Object arg) {
