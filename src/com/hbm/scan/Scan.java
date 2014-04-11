@@ -167,18 +167,18 @@ class ScanThread extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		//FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
 		try {
-	    AnnounceReceiver ar = new AnnounceReceiver();
-	    JsonFilter jf = new JsonFilter();
-		ar.addObserver(jf);
-		Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
-		jf.addObserver(ftFilter);
-		AnnounceFilter af = new AnnounceFilter();
-		ftFilter.addObserver(af);
-		af.addObserver(this);
+			FakeStringMessageMulticastReceiver ar = new FakeStringMessageMulticastReceiver();
+	    	//AnnounceReceiver ar = new AnnounceReceiver();
+	    	JsonFilter jf = new JsonFilter();
+			ar.addObserver(jf);
+			Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
+			jf.addObserver(ftFilter);
+			AnnounceFilter af = new AnnounceFilter();
+			ftFilter.addObserver(af);
+			af.addObserver(this);
 
-	    ar.start();
+	    	ar.start();
 		}
 		catch (Exception e) {
 
@@ -189,6 +189,7 @@ class ScanThread extends Thread implements Observer {
         AnnouncePath ap;
         if (arg instanceof RegisterDeviceEvent) {
             ap = ((RegisterDeviceEvent)arg).getAnnouncePath();
+			ap.cookie = getDomainName(ap.getAnnounce());
 			synchronized(entries) {
 				entries.add(ap);
 			}
@@ -199,6 +200,23 @@ class ScanThread extends Thread implements Observer {
 			}
         }
 		adapter.updateEntries(entries);
+	}
+	
+	private String getDomainName(Announce announce) {
+		Iterable<IPv4Entry> ips = announce.getParams().getNetSettings().getInterface().getIPv4();
+		Iterator<IPv4Entry> iterator = ips.iterator();
+		while (iterator.hasNext()) {
+			IPv4Entry ipEntry = iterator.next();
+			String ip = ipEntry.getAddress();
+			try {
+				InetAddress address = InetAddress.getByName(ip);
+				String fqdn = address.getCanonicalHostName();
+				return fqdn;
+			} catch (UnknownHostException e) {
+				return null;
+			}
+		}
+		return null;
 	}
 }
 
