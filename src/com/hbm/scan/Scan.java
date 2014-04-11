@@ -1,19 +1,20 @@
 package com.hbm.scan;
 
+
 import android.app.ListActivity;
-import android.os.Bundle;
-
-
-import android.os.AsyncTask;
-import android.widget.BaseAdapter;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import java.util.ArrayList;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.hbm.devices.scan.AnnouncePath;
 import com.hbm.devices.scan.AnnounceReceiver;
@@ -25,24 +26,14 @@ import com.hbm.devices.scan.filter.JsonFilter;
 import com.hbm.devices.scan.IPv4ScanInterfaces;
 import com.hbm.devices.scan.messages.*;
 import com.hbm.devices.scan.RegisterDeviceEvent;
-import com.hbm.devices.scan.ScanConstants;
 import com.hbm.devices.scan.UnregisterDeviceEvent;
 
-
-import java.net.SocketException;
-import java.net.NetworkInterface;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Observer;
 import java.util.Observable;
-
-import android.content.Intent;
-import android.net.Uri;
-import android.view.WindowManager;
-import android.graphics.Color;
+import java.util.Observer;
 
 public class Scan extends ListActivity {
 
@@ -88,11 +79,8 @@ public class Scan extends ListActivity {
 	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
 		AnnouncePath ap = (AnnouncePath)adapter.getItem(position);
-		Iterable<IPv4Entry> ips = ap.getAnnounce().getParams().getNetSettings().getInterface().getIPv4();
-		Iterator<IPv4Entry> iterator = ips.iterator();
-		if (iterator.hasNext()) {
-			IPv4Entry entry = iterator.next();
-			String ip = entry.getAddress();
+		String ip = (String)ap.cookie;
+		if (ip != null) {
 			Uri.Builder b = new Uri.Builder();
 			b.scheme("http");
 			b.authority(ip);
@@ -149,12 +137,21 @@ class ModuleListAdapter extends BaseAdapter {
 		synchronized(entries) {
 			ap = entries.get(position);
 		}
+		String ip = (String)ap.cookie;
+		int color;
+		if (ip == null) {
+			color = Color.RED;
+		} else {
+			color = Color.GREEN;
+		}
+
 		Device device = ap.getAnnounce().getParams().getDevice();
 		moduleType.setText(device.getType());
-		moduleType.setTextColor(Color.YELLOW);
+		moduleType.setTextColor(color);
 		moduleUUID.setText(device.getUuid());
-		moduleUUID.setBackgroundColor(Color.RED);
+		moduleUUID.setTextColor(color);
 		moduleName.setText(device.getName());
+		moduleName.setTextColor(color);
 
 		return itemView;
 	}
@@ -174,7 +171,8 @@ class ModuleListAdapter extends BaseAdapter {
 class ScanThread extends Thread implements Observer {
 	private ModuleListAdapter adapter;
 	ArrayList<AnnouncePath> entries;
-	AnnounceReceiver announceReceiver;
+	//AnnounceReceiver announceReceiver;
+	FakeStringMessageMulticastReceiver announceReceiver;
 
 	public ScanThread(ModuleListAdapter adapter) {
 		super("HBM scan thread");
@@ -185,8 +183,8 @@ class ScanThread extends Thread implements Observer {
 	@Override
 	public void run() {
 		try {
-			//FakeStringMessageMulticastReceiver announceReceiver = new FakeStringMessageMulticastReceiver();
-	    	announceReceiver = new AnnounceReceiver();
+			announceReceiver = new FakeStringMessageMulticastReceiver();
+	    	//announceReceiver = new AnnounceReceiver();
 	    	JsonFilter jf = new JsonFilter();
 			announceReceiver.addObserver(jf);
 			Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
