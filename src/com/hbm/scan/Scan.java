@@ -29,9 +29,6 @@ public class Scan extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
-
-		adapter = new ModuleListAdapter(this);
-		setListAdapter(adapter);
 	}
 
 	@Override
@@ -44,9 +41,11 @@ public class Scan extends ListActivity {
 		super.onResume();
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+		adapter = new ModuleListAdapter(this);
+		setListAdapter(adapter);
+
 		scanThread = new ScanThread(adapter);
 		scanThread.start();
-
 	}
 
 	@Override
@@ -58,7 +57,6 @@ public class Scan extends ListActivity {
 			scanThread.join();
 		} catch (InterruptedException e) {
 		}
-
 	}
 
 	@Override 
