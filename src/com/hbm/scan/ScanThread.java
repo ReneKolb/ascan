@@ -32,6 +32,7 @@ class ScanThread extends Thread implements Observer {
 		super("HBM scan thread");
 		this.adapter = adapter;
 		entries = new ArrayList<AnnouncePath>();
+		adapter.updateEntries(entries);
 	}
 
 	@Override
@@ -59,7 +60,9 @@ class ScanThread extends Thread implements Observer {
 		ftFilter.deleteObservers();
 		af.deleteObservers();
 		af.stop();
-		entries.clear();
+		synchronized(entries) {
+			entries.clear();
+		}
 		adapter.updateEntries(entries);
 	}
 
