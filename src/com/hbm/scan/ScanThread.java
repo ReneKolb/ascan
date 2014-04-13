@@ -58,6 +58,7 @@ class ScanThread extends Thread implements Observer {
 		jf.deleteObservers();
 		ftFilter.deleteObservers();
 		af.deleteObservers();
+		af.stop();
 	}
 
 	public void update(Observable o, Object arg) {
