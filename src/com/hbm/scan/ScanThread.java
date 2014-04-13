@@ -22,8 +22,11 @@ import java.util.Observer;
 class ScanThread extends Thread implements Observer {
 	private ModuleListAdapter adapter;
 	ArrayList<AnnouncePath> entries;
-	AnnounceReceiver announceReceiver;
-	//FakeStringMessageMulticastReceiver announceReceiver;
+	//AnnounceReceiver announceReceiver;
+	FakeStringMessageMulticastReceiver announceReceiver;
+	JsonFilter jf;
+	Filter ftFilter;
+	AnnounceFilter af;
 
 	public ScanThread(ModuleListAdapter adapter) {
 		super("HBM scan thread");
@@ -34,13 +37,13 @@ class ScanThread extends Thread implements Observer {
 	@Override
 	public void run() {
 		try {
-			//announceReceiver = new FakeStringMessageMulticastReceiver();
-	    	announceReceiver = new AnnounceReceiver();
-	    	JsonFilter jf = new JsonFilter();
+			announceReceiver = new FakeStringMessageMulticastReceiver();
+	    	//announceReceiver = new AnnounceReceiver();
+	    	jf = new JsonFilter();
 			announceReceiver.addObserver(jf);
-			Filter ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
+			ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
 			jf.addObserver(ftFilter);
-			AnnounceFilter af = new AnnounceFilter();
+			af = new AnnounceFilter();
 			ftFilter.addObserver(af);
 			af.addObserver(this);
 	    	announceReceiver.start();
@@ -51,6 +54,10 @@ class ScanThread extends Thread implements Observer {
 
 	public void kill() {
 		announceReceiver.stop();
+		announceReceiver.deleteObservers();
+		jf.deleteObservers();
+		ftFilter.deleteObservers();
+		af.deleteObservers();
 	}
 
 	public void update(Observable o, Object arg) {
