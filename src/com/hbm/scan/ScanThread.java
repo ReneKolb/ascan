@@ -12,12 +12,9 @@ import com.hbm.devices.scan.messages.*;
 import com.hbm.devices.scan.RegisterDeviceEvent;
 import com.hbm.devices.scan.UnregisterDeviceEvent;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -74,7 +71,6 @@ class ScanThread extends Thread implements Observer {
         AnnouncePath ap;
         if (arg instanceof RegisterDeviceEvent) {
             ap = ((RegisterDeviceEvent)arg).getAnnouncePath();
-			ap.cookie = getDomainName(ap.getAnnounce());
 			synchronized(entries) {
 				entries.add(ap);
 				Collections.sort(entries, listComparator);
@@ -87,23 +83,6 @@ class ScanThread extends Thread implements Observer {
 			}
         }
 		adapter.updateEntries(entries);
-	}
-	
-	private String getDomainName(Announce announce) {
-		Iterable<IPv4Entry> ips = announce.getParams().getNetSettings().getInterface().getIPv4();
-		Iterator<IPv4Entry> iterator = ips.iterator();
-		while (iterator.hasNext()) {
-			IPv4Entry ipEntry = iterator.next();
-			String ip = ipEntry.getAddress();
-			try {
-				InetAddress address = InetAddress.getByName(ip);
-				String fqdn = address.getCanonicalHostName();
-				return fqdn;
-			} catch (UnknownHostException e) {
-				return null;
-			}
-		}
-		return null;
 	}
 }
 
