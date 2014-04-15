@@ -2,9 +2,7 @@ package com.hbm.scan;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,11 +68,9 @@ public class Scan extends ListActivity {
 			IPv4Entry ipEntry = iterator.next();
 			String ip = ipEntry.getAddress();
 			if (ip != null) {
-				Uri.Builder b = new Uri.Builder();
-				b.scheme("http");
-				b.authority(ip);
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, b.build());
-				startActivity(browserIntent);
+				BrowserStartTask browserTask = new BrowserStartTask(this);
+				browserTask.execute(new String[] {ip});
+				return;
 			}
 		}
 	}
