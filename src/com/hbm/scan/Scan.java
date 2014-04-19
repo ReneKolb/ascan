@@ -18,7 +18,6 @@ import com.hbm.devices.scan.messages.Device;
 import com.hbm.devices.scan.messages.IPv4Entry;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Scan extends ListActivity {
 
@@ -63,10 +62,8 @@ public class Scan extends ListActivity {
     public void onListItemClick(ListView l, View v, int position, long id) {
 		AnnouncePath ap = (AnnouncePath)adapter.getItem(position);
 		Iterable<IPv4Entry> ips = ap.getAnnounce().getParams().getNetSettings().getInterface().getIPv4();
-		Iterator<IPv4Entry> iterator = ips.iterator();
-		while (iterator.hasNext()) {
-			IPv4Entry ipEntry = iterator.next();
-			String ip = ipEntry.getAddress();
+		for (IPv4Entry entry : ips) {
+			String ip = entry.getAddress();
 			if (ip != null) {
 				BrowserStartTask browserTask = new BrowserStartTask(this);
 				browserTask.execute(new String[] {ip});
