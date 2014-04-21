@@ -7,10 +7,10 @@ import com.hbm.devices.scan.filter.AnnounceFilter;
 import com.hbm.devices.scan.filter.FamilytypeMatch;
 import com.hbm.devices.scan.filter.Filter;
 import com.hbm.devices.scan.filter.JsonFilter;
-import com.hbm.devices.scan.IPv4ScanInterfaces;
 import com.hbm.devices.scan.messages.*;
 import com.hbm.devices.scan.RegisterDeviceEvent;
 import com.hbm.devices.scan.UnregisterDeviceEvent;
+import com.hbm.devices.scan.util.IPv4ScanInterfaces;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,13 +20,13 @@ import java.util.Observer;
 
 class ScanThread extends Thread implements Observer {
 	private ModuleListAdapter adapter;
-	ArrayList<AnnouncePath> entries;
-	//AnnounceReceiver announceReceiver;
-	FakeStringMessageMulticastReceiver announceReceiver;
-	JsonFilter jf;
-	Filter ftFilter;
-	AnnounceFilter af;
-	Comparator<AnnouncePath> listComparator;
+	private ArrayList<AnnouncePath> entries;
+	//private AnnounceReceiver announceReceiver;
+	private FakeStringMessageMulticastReceiver announceReceiver;
+	private JsonFilter jf;
+	private Filter ftFilter;
+	private AnnounceFilter af;
+	private Comparator<AnnouncePath> listComparator;
 
 	public ScanThread(ModuleListAdapter adapter) {
 		super("HBM scan thread");
