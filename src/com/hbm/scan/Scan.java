@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class Scan extends ListActivity {
 
-	private static final String TAG = "Scan";
 	private ModuleListAdapter adapter;
 	private ScanThread scanThread;
  
@@ -73,6 +72,7 @@ public class Scan extends ListActivity {
 
 class ModuleListAdapter extends BaseAdapter {
 
+	private static final int DARK_OLIVE_GREEN = Color.rgb(85, 107, 47);
 	private ListActivity activity;
 	private LayoutInflater mLayoutInflater;
 	private ArrayList<AnnouncePath> entries = new ArrayList<AnnouncePath>();
@@ -123,7 +123,7 @@ class ModuleListAdapter extends BaseAdapter {
 		if (connectAddress == null) {
 			color = Color.RED;
 		} else {
-			color = Color.GREEN;
+			color = DARK_OLIVE_GREEN;
 		}
 
 		Device device = ap.getAnnounce().getParams().getDevice();
