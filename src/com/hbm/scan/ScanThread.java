@@ -10,6 +10,7 @@ import com.hbm.devices.scan.filter.JsonFilter;
 import com.hbm.devices.scan.messages.*;
 import com.hbm.devices.scan.RegisterDeviceEvent;
 import com.hbm.devices.scan.UnregisterDeviceEvent;
+import com.hbm.devices.scan.util.ConnectionFinder;
 import com.hbm.devices.scan.util.IPv4ScanInterfaces;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ class ScanThread extends Thread implements Observer {
 	private Filter ftFilter;
 	private AnnounceFilter af;
 	private Comparator<AnnouncePath> listComparator;
+	private ConnectionFinder connectionFinder;
 
 	public ScanThread(ModuleListAdapter adapter) {
 		super("HBM scan thread");
@@ -39,6 +41,7 @@ class ScanThread extends Thread implements Observer {
 	@Override
 	public void run() {
 		try {
+			connectionFinder = new ConnectionFinder(new IPv4ScanInterfaces().getInterfaces(), false);
 			announceReceiver = new FakeStringMessageMulticastReceiver();
 	    	//announceReceiver = new AnnounceReceiver();
 	    	jf = new JsonFilter();
@@ -71,6 +74,7 @@ class ScanThread extends Thread implements Observer {
         AnnouncePath ap;
         if (arg instanceof RegisterDeviceEvent) {
             ap = ((RegisterDeviceEvent)arg).getAnnouncePath();
+			ap.cookie = connectionFinder.getConnectableAddress(ap.getAnnounce());
 			synchronized(entries) {
 				entries.add(ap);
 				Collections.sort(entries, listComparator);

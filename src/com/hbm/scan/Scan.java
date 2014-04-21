@@ -17,6 +17,7 @@ import com.hbm.devices.scan.AnnouncePath;
 import com.hbm.devices.scan.messages.Device;
 import com.hbm.devices.scan.messages.IPv4Entry;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class Scan extends ListActivity {
@@ -61,14 +62,11 @@ public class Scan extends ListActivity {
 	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
 		AnnouncePath ap = (AnnouncePath)adapter.getItem(position);
-		Iterable<IPv4Entry> ips = ap.getAnnounce().getParams().getNetSettings().getInterface().getIPv4();
-		for (IPv4Entry entry : ips) {
-			String ip = entry.getAddress();
-			if (ip != null) {
-				BrowserStartTask browserTask = new BrowserStartTask(this);
-				browserTask.execute(new String[] {ip});
-				return;
-			}
+		InetAddress connectAddress = (InetAddress)ap.cookie;
+		if (connectAddress != null) {
+			BrowserStartTask browserTask = new BrowserStartTask(this);
+			browserTask.execute(new InetAddress[] {connectAddress});
+			return;
 		}
 	}
 }
@@ -120,9 +118,9 @@ class ModuleListAdapter extends BaseAdapter {
 		synchronized(entries) {
 			ap = entries.get(position);
 		}
-		String ip = (String)ap.cookie;
+		InetAddress connectAddress = (InetAddress)ap.cookie;
 		int color;
-		if (ip == null) {
+		if (connectAddress == null) {
 			color = Color.RED;
 		} else {
 			color = Color.GREEN;
