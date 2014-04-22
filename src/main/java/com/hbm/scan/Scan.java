@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,6 +29,15 @@ public class Scan extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+		ListView list = getListView();
+		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){ 
+			@Override 
+			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) { 
+				return true; 
+        	} 
+		}); 
+
+        System.out.println("Created");
 	}
 
 	@Override
@@ -84,21 +94,24 @@ class ModuleListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		synchronized(entries) {
-			return entries.size();
-		}
+		return entries.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		synchronized(entries) {
-			return entries.get(position);
-		}
+		return entries.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		System.out.println("isEnabled");
+		AnnouncePath ap = (AnnouncePath)entries.get(position);
+		return ap.cookie != null;
 	}
 
 	@Override
@@ -115,9 +128,7 @@ class ModuleListAdapter extends BaseAdapter {
 		TextView moduleName = (TextView)itemView.findViewById(R.id.moduleName);
 
 		AnnouncePath ap;
-		synchronized(entries) {
-			ap = entries.get(position);
-		}
+		ap = entries.get(position);
 		InetAddress connectAddress = (InetAddress)ap.cookie;
 		int color;
 		if (connectAddress == null) {
@@ -137,12 +148,10 @@ class ModuleListAdapter extends BaseAdapter {
 		return itemView;
 	}
 
-	public void updateEntries(ArrayList<AnnouncePath> entries) {
-		synchronized(this.entries) {
-			this.entries = entries;
-		}
+	public void updateEntries(final ArrayList<AnnouncePath> newEntries) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
+				entries = newEntries;
 				notifyDataSetChanged();
 			}
 		});
