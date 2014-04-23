@@ -18,9 +18,13 @@ import android.widget.TextView;
 import com.hbm.devices.scan.AnnouncePath;
 import com.hbm.devices.scan.messages.Device;
 import com.hbm.devices.scan.messages.IPv4Entry;
+import com.hbm.devices.scan.RegisterDeviceEvent;
+import com.hbm.devices.scan.UnregisterDeviceEvent;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Scan extends ListActivity {
 
@@ -65,6 +69,7 @@ public class Scan extends ListActivity {
 			scanThread.join();
 		} catch (InterruptedException e) {
 		}
+		adapter.clearEntries();
 	}
 
 	@Override 
@@ -84,11 +89,19 @@ class ModuleListAdapter extends BaseAdapter {
 	private static final int DARK_OLIVE_GREEN = Color.rgb(85, 107, 47);
 	private ListActivity activity;
 	private LayoutInflater mLayoutInflater;
-	private ArrayList<AnnouncePath> entries = new ArrayList<AnnouncePath>();
+	private ArrayList<AnnouncePath> entries;
+	private Comparator<AnnouncePath> listComparator;
 
 	public ModuleListAdapter(Context context) {
 		activity = (ListActivity)context;
 		mLayoutInflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		entries = new ArrayList<AnnouncePath>();
+		listComparator = new UuidComparator();
+	}
+
+	public void clearEntries() {
+		entries.clear();
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -153,13 +166,28 @@ class ModuleListAdapter extends BaseAdapter {
 		return itemView;
 	}
 
-	public void updateEntries(final ArrayList<AnnouncePath> newEntries) {
+	public void updateEntries(final Object arg) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				entries = newEntries;
+				if (arg instanceof RegisterDeviceEvent) {
+					AnnouncePath ap = ((RegisterDeviceEvent)arg).getAnnouncePath();
+					entries.add(ap);		
+					Collections.sort(entries, listComparator);
+				} else if (arg instanceof UnregisterDeviceEvent) {
+					AnnouncePath ap = ((UnregisterDeviceEvent)arg).getAnnouncePath();
+					entries.remove(ap);		
+					Collections.sort(entries, listComparator);
+				}
 				notifyDataSetChanged();
 			}
 		});
 	}
 }
 
+class UuidComparator implements Comparator<AnnouncePath> {
+	public int compare(AnnouncePath a1, AnnouncePath a2) {
+		String uuid1 = a1.getAnnounce().getParams().getDevice().getUuid();
+		String uuid2 = a2.getAnnounce().getParams().getDevice().getUuid();
+		return uuid1.compareToIgnoreCase(uuid2);
+	}
+}
