@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Scan extends ListActivity {
+public class Scan extends ListActivity implements AdapterView.OnItemLongClickListener {
 
 	private ModuleListAdapter adapter;
 	private ScanThread scanThread;
@@ -43,13 +43,20 @@ public class Scan extends ListActivity {
 		setListAdapter(adapter);
 
 		ListView list = getListView();
-		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){ 
-			@Override 
-			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) { 
-				return true; 
-        	} 
-		}); 
+		list.setOnItemLongClickListener(this);
 	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) { 
+		System.out.println("long click");
+		AnnouncePath ap = (AnnouncePath)adapter.getItem(pos);
+		InetAddress connectAddress = (InetAddress)ap.cookie;
+		if (connectAddress != null) {
+			BrowserStartTask browserTask = new BrowserStartTask(this);
+			browserTask.execute(new InetAddress[] {connectAddress});
+		}
+		return true; 
+    } 
 
 	@Override
 	public void onDestroy() {
@@ -79,13 +86,6 @@ public class Scan extends ListActivity {
 
 	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
-		AnnouncePath ap = (AnnouncePath)adapter.getItem(position);
-		InetAddress connectAddress = (InetAddress)ap.cookie;
-		if (connectAddress != null) {
-			BrowserStartTask browserTask = new BrowserStartTask(this);
-			browserTask.execute(new InetAddress[] {connectAddress});
-			return;
-		}
 	}
 }
 
