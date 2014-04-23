@@ -2,11 +2,15 @@ package com.hbm.scan;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -44,6 +48,25 @@ public class Scan extends ListActivity implements AdapterView.OnItemLongClickLis
 
 		ListView list = getListView();
 		list.setOnItemLongClickListener(this);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		    case R.id.action_settings:
+				System.out.println("Settings");
+				startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+		        return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
