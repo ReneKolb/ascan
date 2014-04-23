@@ -34,6 +34,10 @@ public class Scan extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+
+		adapter = new ModuleListAdapter(this);
+		setListAdapter(adapter);
+
 		ListView list = getListView();
 		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){ 
 			@Override 
@@ -53,16 +57,15 @@ public class Scan extends ListActivity {
 		super.onResume();
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		adapter = new ModuleListAdapter(this);
-		setListAdapter(adapter);
-
 		scanThread = new ScanThread(adapter);
 		scanThread.start();
+		System.out.println("resuming");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		System.out.println("pausing");
 
 		scanThread.kill();
 		try {
