@@ -7,6 +7,7 @@ import com.hbm.devices.scan.filter.AnnounceFilter;
 import com.hbm.devices.scan.filter.FamilytypeMatch;
 import com.hbm.devices.scan.filter.Filter;
 import com.hbm.devices.scan.filter.JsonFilter;
+import com.hbm.devices.scan.MessageReceiver;
 import com.hbm.devices.scan.messages.*;
 import com.hbm.devices.scan.RegisterDeviceEvent;
 import com.hbm.devices.scan.UnregisterDeviceEvent;
@@ -18,24 +19,28 @@ import java.util.Observer;
 
 class ScanThread extends Thread implements Observer {
 	private ModuleListAdapter adapter;
-	//private AnnounceReceiver announceReceiver;
-	private FakeStringMessageMulticastReceiver announceReceiver;
+	private MessageReceiver announceReceiver;
 	private JsonFilter jf;
 	private Filter ftFilter;
 	private AnnounceFilter af;
 	private ConnectionFinder connectionFinder;
+	private boolean useFakeMessages;
 
 	public ScanThread(ModuleListAdapter adapter, boolean useFakeMessages) {
 		super("HBM scan thread");
 		this.adapter = adapter;
+		this.useFakeMessages = useFakeMessages;
 	}
 
 	@Override
 	public void run() {
 		try {
 			connectionFinder = new ConnectionFinder(new IPv4ScanInterfaces().getInterfaces(), false);
-			announceReceiver = new FakeStringMessageMulticastReceiver();
-	    	//announceReceiver = new AnnounceReceiver();
+			if (useFakeMessages) {
+				announceReceiver = new FakeStringMessageMulticastReceiver();
+			} else {
+	    		announceReceiver = new AnnounceReceiver();
+			}
 	    	jf = new JsonFilter();
 			announceReceiver.addObserver(jf);
 			ftFilter = new Filter(new FamilytypeMatch("QuantumX"));
