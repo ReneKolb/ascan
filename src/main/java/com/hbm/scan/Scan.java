@@ -63,13 +63,11 @@ public class Scan extends ListActivity {
 
 		scanThread = new ScanThread(adapter);
 		scanThread.start();
-		System.out.println("resuming");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		System.out.println("pausing");
 
 		scanThread.kill();
 		try {
@@ -167,10 +165,11 @@ class ModuleListAdapter extends BaseAdapter {
 			viewHolder.moduleUUID.setTextColor(color);
 			viewHolder.moduleName.setText(device.getName());
 			viewHolder.moduleName.setTextColor(color);
+			viewHolder.router.setImageBitmap(routerBitmap);
 			if (device.isRouter()) {
-				viewHolder.router.setImageBitmap(routerBitmap);
+				viewHolder.router.setVisibility(View.VISIBLE);
 			} else {
-				viewHolder.router.setVisibility(View.INVISIBLE);
+				viewHolder.router.setVisibility(View.GONE);
 			}
 		}
 
