@@ -2,6 +2,8 @@ package com.hbm.scan;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +12,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hbm.devices.scan.AnnouncePath;
@@ -33,9 +34,12 @@ public class Scan extends ListActivity {
  
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bitmap routerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_router);
+
 		setContentView(R.layout.list);
 
-		adapter = new ModuleListAdapter(this);
+		adapter = new ModuleListAdapter(this, routerBitmap);
 		setListAdapter(adapter);
 
 		ListView list = getListView();
@@ -89,13 +93,15 @@ public class Scan extends ListActivity {
 
 class ModuleListAdapter extends BaseAdapter {
 
+	private Bitmap routerBitmap;
 	private static final int DARK_OLIVE_GREEN = Color.rgb(85, 107, 47);
 	private ListActivity activity;
 	private LayoutInflater mLayoutInflater;
 	private ArrayList<AnnouncePath> entries;
 	private Comparator<AnnouncePath> listComparator;
 
-	public ModuleListAdapter(Context context) {
+	public ModuleListAdapter(Context context, Bitmap routerBitmap) {
+		this.routerBitmap = routerBitmap;
 		activity = (ListActivity)context;
 		mLayoutInflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		entries = new ArrayList<AnnouncePath>();
@@ -124,49 +130,51 @@ class ModuleListAdapter extends BaseAdapter {
 
 	@Override
 	public boolean isEnabled(int position) {
-		System.out.println("isEnabled");
 		AnnouncePath ap = (AnnouncePath)entries.get(position);
 		return ap.cookie != null;
 	}
 
 	@Override
 	public View getView(int position, View convertView,	ViewGroup parent) {
-		RelativeLayout itemView;
+		ViewHolderItem viewHolder;
+
 		if (convertView == null) {
-			itemView = (RelativeLayout) mLayoutInflater.inflate(R.layout.item, parent, false);
+			convertView = mLayoutInflater.inflate(R.layout.item, parent, false);
+			viewHolder = new ViewHolderItem();
+			viewHolder.moduleType = (TextView)convertView.findViewById(R.id.moduleType);
+			viewHolder.moduleUUID = (TextView)convertView.findViewById(R.id.moduleUUID);
+			viewHolder.moduleName = (TextView)convertView.findViewById(R.id.moduleName);
+			viewHolder.router = (ImageView)convertView.findViewById(R.id.router);
+			convertView.setTag(viewHolder);
 		} else {
-			itemView = (RelativeLayout) convertView;
+			viewHolder = (ViewHolderItem) convertView.getTag();
 		}
 
-		TextView moduleType = (TextView)itemView.findViewById(R.id.moduleType);
-		TextView moduleUUID = (TextView)itemView.findViewById(R.id.moduleUUID);
-		TextView moduleName = (TextView)itemView.findViewById(R.id.moduleName);
-		ImageView router = (ImageView)itemView.findViewById(R.id.router);
+		AnnouncePath ap = entries.get(position);
+		if (ap != null) {
+			InetAddress connectAddress = (InetAddress)ap.cookie;
+			int color;
+			if (connectAddress == null) {
+				color = Color.RED;
+			} else {
+				color = DARK_OLIVE_GREEN;
+			}
 
-		AnnouncePath ap;
-		ap = entries.get(position);
-		InetAddress connectAddress = (InetAddress)ap.cookie;
-		int color;
-		if (connectAddress == null) {
-			color = Color.RED;
-		} else {
-			color = DARK_OLIVE_GREEN;
+			Device device = ap.getAnnounce().getParams().getDevice();
+			viewHolder.moduleType.setText(device.getType());
+			viewHolder.moduleType.setTextColor(color);
+			viewHolder.moduleUUID.setText(device.getUuid());
+			viewHolder.moduleUUID.setTextColor(color);
+			viewHolder.moduleName.setText(device.getName());
+			viewHolder.moduleName.setTextColor(color);
+			if (device.isRouter()) {
+				viewHolder.router.setImageBitmap(routerBitmap);
+			} else {
+				viewHolder.router.setVisibility(View.INVISIBLE);
+			}
 		}
 
-		Device device = ap.getAnnounce().getParams().getDevice();
-		moduleType.setText(device.getType());
-		moduleType.setTextColor(color);
-		moduleUUID.setText(device.getUuid());
-		moduleUUID.setTextColor(color);
-		moduleName.setText(device.getName());
-		moduleName.setTextColor(color);
-		if (device.isRouter()) {
-			router.setImageResource(R.drawable.ic_router);
-		} else {
-			router.setVisibility(View.INVISIBLE);
-		}
-
-		return itemView;
+		return convertView;
 	}
 
 	public void updateEntries(final Object arg) {
@@ -184,6 +192,13 @@ class ModuleListAdapter extends BaseAdapter {
 				notifyDataSetChanged();
 			}
 		});
+	}
+
+	static class ViewHolderItem {
+    	TextView moduleType;
+    	TextView moduleUUID;
+    	TextView moduleName;
+		ImageView router;
 	}
 }
 
