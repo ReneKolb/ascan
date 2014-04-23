@@ -25,7 +25,7 @@ class ScanThread extends Thread implements Observer {
 	private AnnounceFilter af;
 	private ConnectionFinder connectionFinder;
 
-	public ScanThread(ModuleListAdapter adapter) {
+	public ScanThread(ModuleListAdapter adapter, boolean useFakeMessages) {
 		super("HBM scan thread");
 		this.adapter = adapter;
 	}

@@ -3,6 +3,8 @@ package com.hbm.scan;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,6 +37,7 @@ public class Scan extends ListActivity implements AdapterView.OnItemLongClickLis
 
 	private ModuleListAdapter adapter;
 	private ScanThread scanThread;
+	private boolean useFakeMessages = false;
  
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +45,9 @@ public class Scan extends ListActivity implements AdapterView.OnItemLongClickLis
 		Bitmap routerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_router);
 
 		setContentView(R.layout.list);
+		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		useFakeMessages = sharedPref.getBoolean("fake_messages", false);
 
 		adapter = new ModuleListAdapter(this, routerBitmap);
 		setListAdapter(adapter);
@@ -91,7 +97,7 @@ public class Scan extends ListActivity implements AdapterView.OnItemLongClickLis
 		super.onResume();
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		scanThread = new ScanThread(adapter);
+		scanThread = new ScanThread(adapter, useFakeMessages);
 		scanThread.start();
 	}
 
