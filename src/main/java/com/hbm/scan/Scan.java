@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hbm.devices.scan.AnnouncePath;
@@ -36,8 +37,6 @@ public class Scan extends ListActivity {
 				return true; 
         	} 
 		}); 
-
-        System.out.println("Created");
 	}
 
 	@Override
@@ -126,6 +125,7 @@ class ModuleListAdapter extends BaseAdapter {
 		TextView moduleType = (TextView)itemView.findViewById(R.id.moduleType);
 		TextView moduleUUID = (TextView)itemView.findViewById(R.id.moduleUUID);
 		TextView moduleName = (TextView)itemView.findViewById(R.id.moduleName);
+		ImageView router = (ImageView)itemView.findViewById(R.id.router);
 
 		AnnouncePath ap;
 		ap = entries.get(position);
@@ -144,6 +144,11 @@ class ModuleListAdapter extends BaseAdapter {
 		moduleUUID.setTextColor(color);
 		moduleName.setText(device.getName());
 		moduleName.setTextColor(color);
+		if (device.isRouter()) {
+			router.setImageResource(R.drawable.ic_router);
+		} else {
+			router.setVisibility(View.INVISIBLE);
+		}
 
 		return itemView;
 	}
