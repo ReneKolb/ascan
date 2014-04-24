@@ -89,17 +89,20 @@ public class DeviceFragment extends ListFragment implements AdapterView.OnItemLo
 	}
 
 	@Override 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-		RoutedDeviceFragment newFragment = new RoutedDeviceFragment();
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.fragment_container, newFragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
+    public void onListItemClick(ListView l, View v, int pos, long id) {
+		AnnouncePath ap = (AnnouncePath)adapter.getItem(pos);
+		Device device = ap.getAnnounce().getParams().getDevice();
+		if (device.isRouter()) {
+			RoutedDeviceFragment newFragment = new RoutedDeviceFragment();
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			transaction.replace(R.id.fragment_container, newFragment);
+			transaction.addToBackStack(null);
+			transaction.commit();
+		}
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) { 
-		System.out.println("long click");
 		AnnouncePath ap = (AnnouncePath)adapter.getItem(pos);
 		InetAddress connectAddress = (InetAddress)ap.cookie;
 		if (connectAddress != null) {
