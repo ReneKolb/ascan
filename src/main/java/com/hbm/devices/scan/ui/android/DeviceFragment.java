@@ -153,7 +153,7 @@ class ModuleListAdapter extends BaseAdapter {
 		ViewHolderItem viewHolder;
 
 		if (convertView == null) {
-			convertView = layoutInflater.inflate(R.layout.item, parent, false);
+			convertView = layoutInflater.inflate(R.layout.device_item, parent, false);
 			viewHolder = new ViewHolderItem();
 			viewHolder.moduleType = (TextView)convertView.findViewById(R.id.moduleType);
 			viewHolder.moduleUUID = (TextView)convertView.findViewById(R.id.moduleUUID);
