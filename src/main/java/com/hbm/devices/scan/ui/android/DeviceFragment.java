@@ -78,7 +78,9 @@ public class DeviceFragment extends ListFragment implements AdapterView.OnItemLo
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.device_list, container, false);
+		View view = inflater.inflate(R.layout.device_list, container, false);
+		getActivity().getActionBar().setTitle(R.string.app_name);
+		return view;
 	}
 
 	@Override
