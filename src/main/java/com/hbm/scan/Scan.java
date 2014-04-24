@@ -158,7 +158,8 @@ class ModuleListAdapter extends BaseAdapter {
 	@Override
 	public boolean isEnabled(int position) {
 		AnnouncePath ap = (AnnouncePath)entries.get(position);
-		return ap.cookie != null;
+		Device device = ap.getAnnounce().getParams().getDevice();
+		return (ap.cookie != null) || (device.isRouter());
 	}
 
 	@Override
