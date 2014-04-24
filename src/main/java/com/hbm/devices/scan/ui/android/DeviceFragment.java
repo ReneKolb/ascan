@@ -2,6 +2,7 @@ package com.hbm.devices.scan.ui.android;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -89,6 +90,11 @@ public class DeviceFragment extends ListFragment implements AdapterView.OnItemLo
 
 	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
+		RoutedDeviceFragment newFragment = new RoutedDeviceFragment();
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		transaction.replace(R.id.fragment_container, newFragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
 	}
 
 	@Override
