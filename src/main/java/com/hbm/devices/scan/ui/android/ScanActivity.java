@@ -34,7 +34,6 @@ public class ScanActivity extends Activity implements FragmentManager.OnBackStac
 	}
 
 	private void shouldDisplayHomeUp(){
-	   //Enable Up button only  if there are entries in the back stack
 	   boolean canback = getFragmentManager().getBackStackEntryCount() > 0;
 	   getActionBar().setDisplayHomeAsUpEnabled(canback);
 	}
