@@ -1,4 +1,4 @@
-package com.hbm.scan;
+package com.hbm.devices.scan.ui.android;
 
 import com.hbm.devices.scan.AnnouncePath;
 import com.hbm.devices.scan.AnnounceReceiver;

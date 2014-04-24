@@ -1,4 +1,4 @@
-package com.hbm.scan;
+package com.hbm.devices.scan.ui.android;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

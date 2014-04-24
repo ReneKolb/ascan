@@ -1,4 +1,4 @@
-package com.hbm.scan;
+package com.hbm.devices.scan.ui.android;
 
 import android.app.Activity;
 import android.app.Fragment;
