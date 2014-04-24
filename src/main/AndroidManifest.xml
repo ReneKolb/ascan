@@ -24,12 +24,7 @@
 
 		<activity
 		    android:name="SettingsActivity"
-		    android:label="@string/title_activity_display_message"
-		    android:parentActivityName="ScanActivity" >
-		    <!-- Parent activity meta-data to support API level 7+ -->
-		    <meta-data
-		    	android:name="android.support.PARENT_ACTIVITY"
-		    	android:value="ScanActivity" />
+		    android:label="@string/title_activity_display_message" >
 		</activity>
 
     </application>
