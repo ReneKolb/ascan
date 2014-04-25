@@ -17,7 +17,6 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-		System.out.println("option");
         switch (item.getItemId()) {
         case android.R.id.home:
     	    super.onBackPressed();  
