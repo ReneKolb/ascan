@@ -25,11 +25,20 @@ dependencies {
 android {
     compileSdkVersion 19
     buildToolsVersion "19.0.3"
-    buildTypes {
-        release {
-            runProguard true
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
-        }
-    }
+
+	signingConfigs {
+		release {
+			//storeFile file("myReleaseKey.keystore")
+			//storePassword "passwd"
+			//keyAlias "MyReleaseKey"
+			//keyPassword "passwd"
+		}
+	}
+
+	buildTypes {
+		release {
+			//signingConfig signingConfigs.release
+		}
+	}
 }
 
