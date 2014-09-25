@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/configure_header_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/configure_label"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/configure_interface_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_header_label"
+            android:layout_marginTop="25dp"
+            android:text="@string/configure_interface_name_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/configure_interface_name_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_interface_name_label"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/configure_method_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_interface_name_edit"
+            android:layout_marginTop="25dp"
+            android:text="@string/configure_method_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <RadioGroup
+            android:id="@+id/configure_method_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_method_label" >
+
+            <RadioButton
+                android:id="@+id/configure_method_dhcp_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/configure_method_dhcp_label" />
+
+            <RadioButton
+                android:id="@+id/configure_method_manual_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/configure_method_manual" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/configure_ip_address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_method_radiogroup"
+            android:text="@string/configure_ip_address_label" />
+
+        <EditText
+            android:id="@+id/configure_ip_address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_ip_address_label"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/configure_subnet_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_ip_address_edit"
+            android:text="@string/configure_subnet_label" />
+
+        <EditText
+            android:id="@+id/configure_subnet_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_subnet_label"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/configure_gateway_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_subnet_edit"
+            android:layout_marginTop="28dp"
+            android:text="@string/configure_gateway_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/configure_gateway_ip_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_gateway_label"
+            android:text="@string/configure_gateway_ip_label" />
+
+        <EditText
+            android:id="@+id/configure_gateway_ip_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/configure_gateway_ip_label"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/configure_ready_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/configure_gateway_ip_edit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            android:text="@string/configure_ready_button" />
+    </RelativeLayout>
+
+</ScrollView>

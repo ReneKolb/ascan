@@ -7,4 +7,21 @@
     <string name="use_fake_messages_summ">Don\'t receive multicast messages, emit dummy messages instead</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_message">Settings</string>
+    <string name="popup_show_settings">show settings</string>
+    <string name="popup_configure">configure</string>
+    <string name="netSettings_caption">Network settings:</string>
+    <string name="interfaces_caption">Interfaces:</string>
+    <string name="DefaultGateway">Default Gateway:</string>
+    <string name="services_label">Services:</string>
+    <string name="configure_label">Configure:</string>
+    <string name="configure_interface_name_label">Interface name:</string>
+    <string name="configure_method_label">Configuration method:</string>
+    <string name="configure_method_dhcp_label">Dhcp</string>
+    <string name="configure_method_manual">Manual</string>
+    <string name="configure_ip_address_label">IP-address:</string>
+    <string name="configure_subnet_label">Subnetmask:</string>
+    <string name="configure_gateway_label">Default gateway:</string>
+    <string name="configure_gateway_ip_label">IP-address</string>
+    <string name="configure_gateway_subnet_label">Subnetmask:</string>
+    <string name="configure_ready_button">Ready</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.hbm.devices.scan.ui.android;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;

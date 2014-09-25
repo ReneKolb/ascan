@@ -38,12 +38,12 @@ public class ScanActivity extends Activity implements FragmentManager.OnBackStac
 	   getActionBar().setDisplayHomeAsUpEnabled(canback);
 	}
 	
-	@Override
-	public boolean onNavigateUp() {
-    	//This method is called when the up button is pressed. Just the pop back stack.
-		getFragmentManager().popBackStack();
-		return true;
-	}
+//	@Override
+//	public boolean onNavigateUp() {
+//    	//This method is called when the up button is pressed. Just the pop back stack.
+//		getFragmentManager().popBackStack();
+//		return true;
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
