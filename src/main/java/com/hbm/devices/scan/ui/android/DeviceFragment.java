@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -33,6 +34,7 @@ import com.hbm.devices.scan.CommunicationPath;
 import com.hbm.devices.scan.events.LostDeviceEvent;
 import com.hbm.devices.scan.events.NewDeviceEvent;
 import com.hbm.devices.scan.events.UpdateDeviceEvent;
+import com.hbm.devices.scan.filter.Filter;
 import com.hbm.devices.scan.messages.Device;
 
 public class DeviceFragment extends ListFragment implements
@@ -67,10 +69,16 @@ public class DeviceFragment extends ListFragment implements
 		getActivity().getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		scanThread = new ScanThread(adapter, useFakeMessages);
+		scanThread = new ScanThread(adapter, useFakeMessages, ((ScanActivity)getActivity()).filterList);
 		scanThread.start();
 
 	}
+
+//	public void updateFilterList(LinkedList<Filter> filterList) {
+//		this.filterList = filterList;
+//
+//		// onResume, Restart....??
+//	}
 
 	@Override
 	public void onPause() {
@@ -112,13 +120,18 @@ public class DeviceFragment extends ListFragment implements
 	private void showConfigure(CommunicationPath comPath) {
 		ConfigureFragment configFragment = new ConfigureFragment(comPath
 				.getAnnounce().getParams());
-		ScanActivity.lastShownCommunicationPath = comPath;
-
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
 		transaction.replace(R.id.fragment_container, configFragment);
 		transaction.addToBackStack(null);
 		transaction.commit();
+	}
+
+	private void openBrowser(InetAddress connectAddress) {
+		if (connectAddress != null) {
+			BrowserStartTask browserTask = new BrowserStartTask(getActivity());
+			browserTask.execute(new InetAddress[] { connectAddress });
+		}
 	}
 
 	@Override
@@ -133,7 +146,13 @@ public class DeviceFragment extends ListFragment implements
 			transaction.addToBackStack(null);
 			transaction.commit();
 		} else {
-			showDeviceSettings(cp);
+			// if you cannot connect directly to the device, open the
+			// configuration fragment
+			if (cp.cookie == null) {
+				showConfigure(cp);
+			} else {
+				openBrowser((InetAddress) cp.cookie);
+			}
 		}
 	}
 
@@ -145,7 +164,10 @@ public class DeviceFragment extends ListFragment implements
 
 		PopupMenu popupMenu = new PopupMenu(av.getContext(), v);
 		popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
-
+		if (cp.cookie == null) {
+			popupMenu.getMenu().findItem(R.id.popup_open_browser)
+					.setEnabled(false);
+		}
 		popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@Override
@@ -156,6 +178,9 @@ public class DeviceFragment extends ListFragment implements
 				} else if (item.getTitle().equals(
 						getString(R.string.popup_configure))) {
 					showConfigure(cp);
+				} else if (item.getTitle().equals(
+						getString(R.string.popup_open_browser))) {
+					openBrowser((InetAddress) cp.cookie);
 				}
 				return true;
 			}
@@ -163,10 +188,6 @@ public class DeviceFragment extends ListFragment implements
 
 		popupMenu.show();
 
-		// if (connectAddress != null) {
-		// BrowserStartTask browserTask = new BrowserStartTask(getActivity());
-		// browserTask.execute(new InetAddress[] { connectAddress });
-		// }
 		return true;
 	}
 }

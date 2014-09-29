@@ -32,7 +32,12 @@ public class ConfigureFragment extends Fragment {
 	private ConfigServiceThread configThread;
 
 	public ConfigureFragment(AnnounceParams oldParams) {
+		ScanActivity.lastConfiguredParams = oldParams;
 		this.oldParams = oldParams;
+	}
+
+	public ConfigureFragment() {
+		this.oldParams = ScanActivity.lastConfiguredParams;
 	}
 
 	@Override

@@ -34,11 +34,10 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		ScanActivity.lastShownCommunicationPath = communicationPath;
 		this.communicationPath = communicationPath;
 	}
-	
 
-	public ShowDeviceSettingsFragment(){
+	public ShowDeviceSettingsFragment() {
 		this.communicationPath = ScanActivity.lastShownCommunicationPath;
-		if(this.communicationPath == null){
+		if (this.communicationPath == null) {
 		}
 	}
 
@@ -52,7 +51,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		int totalHeight = 0;
 		View view = null;
 
-		System.out.println("Adapter Type: " + listAdapter.getClass().getName());
 		for (int i = 0; i < listAdapter.getCount(); i++) {
 			view = listAdapter.getView(i, view, listView);
 			if (i == 0) {
@@ -62,8 +60,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
 			totalHeight += view.getMeasuredHeight();
 		}
-
-		System.out.println("totHeight: " + totalHeight);
 
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
 		params.height = totalHeight
@@ -209,8 +205,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			}
 
 			viewHolder.interfaceName.setText(this.interfaces.getName() + ":");
-			viewHolder.methodName.setText("Configuration method: "+this.interfaces
-					.getConfigurationMethod());
+			viewHolder.methodName.setText("Configuration method: "
+					+ this.interfaces.getConfigurationMethod());
 
 			List<String> ips = new ArrayList<String>();
 
