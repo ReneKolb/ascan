@@ -12,12 +12,20 @@
         android:layout_marginLeft="36dp"
         android:text="TextView" />
 
+    <TextView
+        android:id="@+id/interfaceConfigMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/interfaceNameView"
+        android:layout_below="@+id/interfaceNameView"
+        android:text="TextView" />
+
     <ListView
         android:id="@+id/interfacesListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/interfaceNameView"
-        android:layout_below="@+id/interfaceNameView"
+        android:layout_alignLeft="@+id/interfaceConfigMethod"
+        android:layout_below="@+id/interfaceConfigMethod"
         android:layout_marginLeft="10dp" >
 
     </ListView>

@@ -1,12 +1,11 @@
 package com.hbm.devices.scan.ui.android;
 
+import java.net.InetAddress;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class BrowserStartTask extends AsyncTask<InetAddress, Void, Integer> {
 

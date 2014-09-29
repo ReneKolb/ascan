@@ -31,7 +31,15 @@ public class ShowDeviceSettingsFragment extends Fragment {
 	private CommunicationPath communicationPath;
 
 	public ShowDeviceSettingsFragment(CommunicationPath communicationPath) {
+		ScanActivity.lastShownCommunicationPath = communicationPath;
 		this.communicationPath = communicationPath;
+	}
+	
+
+	public ShowDeviceSettingsFragment(){
+		this.communicationPath = ScanActivity.lastShownCommunicationPath;
+		if(this.communicationPath == null){
+		}
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -43,6 +51,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 				MeasureSpec.AT_MOST);
 		int totalHeight = 0;
 		View view = null;
+
+		System.out.println("Adapter Type: " + listAdapter.getClass().getName());
 		for (int i = 0; i < listAdapter.getCount(); i++) {
 			view = listAdapter.getView(i, view, listView);
 			if (i == 0) {
@@ -52,6 +62,9 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
 			totalHeight += view.getMeasuredHeight();
 		}
+
+		System.out.println("totHeight: " + totalHeight);
+
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
 		params.height = totalHeight
 				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
@@ -72,8 +85,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		nameView.setText(device.getName());
 
 		TextView labelView = (TextView) view.findViewById(R.id.DeviceLabel);
-		labelView
-				.setText("Label... nicht in Device object, aber in spezifikation!");
+		// labelView
+		// .setText("Label... nicht in Device object, aber in spezifikation!");
 
 		TextView typeView = (TextView) view.findViewById(R.id.DeviceType);
 		typeView.setText("Type: " + device.getType());
@@ -138,7 +151,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		return view;
 	}
 
-
 	class InterfacesAdapter extends BaseAdapter {
 
 		private Interface<LinkedList<IPv4Entry>, LinkedList<IPv6Entry>> interfaces;
@@ -152,11 +164,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			layoutInflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// plural, but its actually only one.
-			// this.interfaces = new Interface<LinkedList<IPv4Entry>,
-			// LinkedList<IPv6Entry>>(
-			// interfaces.getName(), Method.fromString(interfaces
-			// .getConfigurationMethod()), interfaces.getIPv4(),
-			// interfaces.getIPv6());
 			this.interfaces = interfaces;
 		}
 
@@ -176,10 +183,10 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			return arg0;
 		}
 
-		// @Override
-		// public boolean isEnabled(int position) {
-		// return false;
-		// }
+		@Override
+		public boolean isEnabled(int position) {
+			return false;
+		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -191,6 +198,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 				viewHolder = new InterfaceHolderItem();
 				viewHolder.interfaceName = (TextView) convertView
 						.findViewById(R.id.interfaceNameView);
+				viewHolder.methodName = (TextView) convertView
+						.findViewById(R.id.interfaceConfigMethod);
 				viewHolder.ipsItem = (ListView) convertView
 						.findViewById(R.id.interfacesListView);
 
@@ -200,6 +209,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			}
 
 			viewHolder.interfaceName.setText(this.interfaces.getName() + ":");
+			viewHolder.methodName.setText("Configuration method: "+this.interfaces
+					.getConfigurationMethod());
 
 			List<String> ips = new ArrayList<String>();
 
@@ -218,6 +229,7 @@ public class ShowDeviceSettingsFragment extends Fragment {
 
 	static class InterfaceHolderItem {
 		TextView interfaceName;
+		TextView methodName;
 		ListView ipsItem;
 	}
 
@@ -226,12 +238,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		private List<String> items;
 		private LayoutInflater inflater;
 
-		// private Context context;
-
 		public IPsAdapter(Activity activity, List<String> items) {
 			this.items = items;
-			// this.context = activity.getBaseContext();
-			// this.inflater = LayoutInflater.from(activity);
 			this.inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
@@ -271,7 +279,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 			}
 
 			String p = getItem(position);
-			System.out.println("getView: " + position + " IP: " + p);
 
 			if (p != null) {
 				if (holder.ipView != null) {
@@ -293,12 +300,8 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		private List<ServiceEntry> services;
 		private LayoutInflater inflater;
 
-		// private Context context;
-
 		public ServicesAdapter(Activity activity, List<ServiceEntry> services) {
 			this.services = services;
-			// this.context = activity.getBaseContext();
-			// this.inflater = LayoutInflater.from(activity);
 			this.inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}

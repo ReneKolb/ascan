@@ -69,6 +69,7 @@ public class DeviceFragment extends ListFragment implements
 
 		scanThread = new ScanThread(adapter, useFakeMessages);
 		scanThread.start();
+
 	}
 
 	@Override
@@ -110,7 +111,8 @@ public class DeviceFragment extends ListFragment implements
 
 	private void showConfigure(CommunicationPath comPath) {
 		ConfigureFragment configFragment = new ConfigureFragment(comPath
-				.getAnnounce().getParams().getNetSettings());
+				.getAnnounce().getParams());
+		ScanActivity.lastShownCommunicationPath = comPath;
 
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
@@ -139,7 +141,7 @@ public class DeviceFragment extends ListFragment implements
 	public boolean onItemLongClick(final AdapterView<?> av, View v, int pos,
 			long id) {
 		final CommunicationPath cp = adapter.getItem(pos);
-		InetAddress connectAddress = (InetAddress) cp.cookie;
+		// InetAddress connectAddress = (InetAddress) cp.cookie;
 
 		PopupMenu popupMenu = new PopupMenu(av.getContext(), v);
 		popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
@@ -210,8 +212,8 @@ class ModuleListAdapter extends BaseAdapter {
 	@Override
 	public boolean isEnabled(int position) {
 		// is the item clickable?
-		CommunicationPath cp = (CommunicationPath) entries.get(position);
-		Device device = cp.getAnnounce().getParams().getDevice();
+		// CommunicationPath cp = (CommunicationPath) entries.get(position);
+		// Device device = cp.getAnnounce().getParams().getDevice();
 		// return (cp.cookie != null) || (device.isRouter());
 		return true;
 	}

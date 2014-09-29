@@ -16,16 +16,16 @@ public final class R {
         public static final int ic_router=0x7f020002;
     }
     public static final class id {
-        public static final int DeviceFamilyType=0x7f070020;
-        public static final int DeviceFirmware=0x7f07001f;
-        public static final int DeviceLabel=0x7f07001c;
-        public static final int DeviceName=0x7f07001b;
-        public static final int DeviceRouter=0x7f07001e;
-        public static final int DeviceType=0x7f070021;
-        public static final int DeviceUUID=0x7f07001d;
-        public static final int RelativeLayout1=0x7f07001a;
-        public static final int ScrollView1=0x7f070019;
-        public static final int action_settings=0x7f070029;
+        public static final int DeviceFamilyType=0x7f070021;
+        public static final int DeviceFirmware=0x7f070020;
+        public static final int DeviceLabel=0x7f07001d;
+        public static final int DeviceName=0x7f07001c;
+        public static final int DeviceRouter=0x7f07001f;
+        public static final int DeviceType=0x7f070022;
+        public static final int DeviceUUID=0x7f07001e;
+        public static final int RelativeLayout1=0x7f07001b;
+        public static final int ScrollView1=0x7f07001a;
+        public static final int action_settings=0x7f07002a;
         public static final int configure_gateway_ip_edit=0x7f07000e;
         public static final int configure_gateway_ip_label=0x7f07000d;
         public static final int configure_gateway_label=0x7f07000c;
@@ -41,25 +41,26 @@ public final class R {
         public static final int configure_ready_button=0x7f07000f;
         public static final int configure_subnet_edit=0x7f07000b;
         public static final int configure_subnet_label=0x7f07000a;
-        public static final int default_gateway_label=0x7f070024;
-        public static final int detailsText=0x7f070018;
+        public static final int default_gateway_label=0x7f070025;
+        public static final int detailsText=0x7f070019;
         public static final int fragment_container=0x7f070014;
-        public static final int gateway_ipv4_view=0x7f070025;
-        public static final int gateway_ipv6_view=0x7f070026;
+        public static final int gateway_ipv4_view=0x7f070026;
+        public static final int gateway_ipv6_view=0x7f070027;
+        public static final int interfaceConfigMethod=0x7f070016;
         public static final int interfaceNameView=0x7f070015;
-        public static final int interfacesLabel=0x7f070023;
-        public static final int interfacesListView=0x7f070016;
-        public static final int ipItemView=0x7f070017;
+        public static final int interfacesLabel=0x7f070024;
+        public static final int interfacesListView=0x7f070017;
+        public static final int ipItemView=0x7f070018;
         public static final int moduleName=0x7f070012;
         public static final int moduleType=0x7f070010;
         public static final int moduleUUID=0x7f070011;
-        public static final int netSettingsLabel=0x7f070022;
-        public static final int popup_configure=0x7f07002b;
-        public static final int popup_show_settings=0x7f07002a;
+        public static final int netSettingsLabel=0x7f070023;
+        public static final int popup_configure=0x7f07002c;
+        public static final int popup_show_settings=0x7f07002b;
         public static final int router=0x7f070013;
         public static final int scrollView=0x7f070000;
-        public static final int services_label=0x7f070027;
-        public static final int services_list_view=0x7f070028;
+        public static final int services_label=0x7f070028;
+        public static final int services_list_view=0x7f070029;
     }
     public static final class layout {
         public static final int configure_layout=0x7f030000;

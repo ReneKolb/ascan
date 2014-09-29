@@ -12,8 +12,8 @@ import com.hbm.devices.scan.MessageReceiver;
 import com.hbm.devices.scan.events.LostDeviceEvent;
 import com.hbm.devices.scan.events.NewDeviceEvent;
 import com.hbm.devices.scan.events.UpdateDeviceEvent;
-import com.hbm.devices.scan.filter.FamilytypeMatch;
 import com.hbm.devices.scan.filter.Filter;
+import com.hbm.devices.scan.filter.UUIDMatch;
 import com.hbm.devices.scan.util.ConnectionFinder;
 import com.hbm.devices.scan.util.ScanInterfaces;
 
@@ -22,7 +22,7 @@ class ScanThread extends Thread implements Observer {
 	private MessageReceiver announceReceiver;
 	private MessageParser parser;
 	private Filter filter;
-	
+
 	private DeviceMonitor deviceMonitor;
 	private ConnectionFinder connectionFinder;
 	private boolean useFakeMessages;
@@ -36,6 +36,7 @@ class ScanThread extends Thread implements Observer {
 	@Override
 	public void run() {
 		try {
+			System.out.println("start announce");
 			connectionFinder = new ConnectionFinder(
 					new ScanInterfaces().getInterfaces(), false);
 			if (useFakeMessages) {
@@ -47,8 +48,10 @@ class ScanThread extends Thread implements Observer {
 			parser = new MessageParser(true);
 			announceReceiver.addObserver(parser);
 
-			String[] families = { "QuantumX" };
-			filter = new Filter(new FamilytypeMatch(families));
+//			 String[] families = { "QuantumX" };
+//			 filter = new Filter(new FamilytypeMatch(families));
+			String[] uuids = { "0009E5001571" };
+			filter = new Filter(new UUIDMatch(uuids));
 			parser.addObserver(filter);
 
 			deviceMonitor = new DeviceMonitor();
@@ -62,10 +65,13 @@ class ScanThread extends Thread implements Observer {
 	}
 
 	public void kill() {
+		System.out.println("kill announce");
 		announceReceiver.stop();
 		announceReceiver.deleteObservers();
 		parser.deleteObservers();
 		filter.deleteObservers();
+		deviceMonitor.stop();
+		deviceMonitor.deleteObservers();
 	}
 
 	public void update(Observable o, Object arg) {
