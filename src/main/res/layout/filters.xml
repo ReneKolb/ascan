@@ -84,7 +84,6 @@
 
             <requestFocus />
         </EditText>
-
     </RelativeLayout>
 
 </LinearLayout>

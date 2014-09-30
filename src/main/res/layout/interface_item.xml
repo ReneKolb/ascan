@@ -27,7 +27,6 @@
         android:layout_alignLeft="@+id/interfaceConfigMethod"
         android:layout_below="@+id/interfaceConfigMethod"
         android:layout_marginLeft="10dp" >
-
     </ListView>
 
 </RelativeLayout>

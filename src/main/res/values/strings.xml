@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">HBM Scan</string>
     <string name="router">router</string>
     <string name="pref_debug">Debug</string>
@@ -31,4 +32,5 @@
     <string name="filter_add_family_type_btn">Familiy type</string>
     <string name="filter_add_uuid_btn">UUID</string>
     <string name="filter_string_label">Filter String:</string>
+
 </resources>
