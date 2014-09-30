@@ -31,11 +31,15 @@ public class ScanActivity extends Activity implements
 	public LinkedList<Filter> filterList;
 
 	public static boolean enableFilterButton;
+	
+	public static ScanActivity act;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		act = this;
+		
 		this.filterList = new LinkedList<Filter>();
 		enableFilterButton = true;
 
@@ -94,13 +98,17 @@ public class ScanActivity extends Activity implements
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				deviceFragment.updateFilterString(query);
+				if (deviceFragment != null) {
+					deviceFragment.updateFilterString(query);
+				}
 				return true;
 			}
 
 			@Override
 			public boolean onQueryTextChange(String newText) {
-				deviceFragment.updateFilterString(newText);
+				if (deviceFragment != null) {
+					deviceFragment.updateFilterString(newText);
+				}
 				return true;
 			}
 		});
@@ -120,7 +128,7 @@ public class ScanActivity extends Activity implements
 			return true;
 		case R.id.action_filters:
 			if (enableFilterButton) {
-				FilterFragment filterFragment = new FilterFragment(this);
+				FilterFragment filterFragment = new FilterFragment();
 				FragmentTransaction transaction = getFragmentManager()
 						.beginTransaction().replace(R.id.fragment_container,
 								filterFragment);

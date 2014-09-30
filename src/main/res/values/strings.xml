@@ -27,7 +27,7 @@
     <string name="configure_ready_button">Ready</string>
     <string name="popup_open_browser">Open Browser</string>
     <string name="menu_filters">Filters...</string>
-    <string name="filters_label">Filters</string>
+    <string name="filters_label">Capture filters:</string>
     <string name="add_filter_label">Add filter:</string>
     <string name="filter_add_family_type_btn">Familiy type</string>
     <string name="filter_add_uuid_btn">UUID</string>
