@@ -132,7 +132,6 @@ public class ConfigureFragment extends Fragment {
 		}
 
 		readyButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// getFragmentManager().popBackStack();
