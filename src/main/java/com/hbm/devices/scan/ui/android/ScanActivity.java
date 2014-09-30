@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.hbm.devices.scan.CommunicationPath;
 import com.hbm.devices.scan.filter.Filter;
@@ -28,11 +30,14 @@ public class ScanActivity extends Activity implements
 
 	public LinkedList<Filter> filterList;
 
+	public static boolean enableFilterButton;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		this.filterList = new LinkedList<Filter>();
+		enableFilterButton = true;
 
 		setContentView(R.layout.device_scan);
 		if (findViewById(R.id.fragment_container) != null) {
@@ -75,18 +80,34 @@ public class ScanActivity extends Activity implements
 		getActionBar().setDisplayHomeAsUpEnabled(canback);
 	}
 
-	// @Override
-	// public boolean onNavigateUp() {
-	// // This method is called when the up button is pressed. Just the pop
-	// // backstack.
-	// getFragmentManager().popBackStack();
-	// return true;
-	// }
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
+
+		// Associate searchable configuration with the SearchView
+		// SearchManager searchManager = (SearchManager)
+		// getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.search)
+				.getActionView();
+
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				deviceFragment.updateFilterString(query);
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				deviceFragment.updateFilterString(newText);
+				return true;
+			}
+		});
+
+		// searchView.setSearchableInfo(searchManager
+		// .getSearchableInfo(getComponentName()));
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -98,12 +119,14 @@ public class ScanActivity extends Activity implements
 					SettingsActivity.class));
 			return true;
 		case R.id.action_filters:
-			FilterFragment filterFragment = new FilterFragment(this);
-			FragmentTransaction transaction = getFragmentManager()
-					.beginTransaction().replace(R.id.fragment_container,
-							filterFragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
+			if (enableFilterButton) {
+				FilterFragment filterFragment = new FilterFragment(this);
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction().replace(R.id.fragment_container,
+								filterFragment);
+				transaction.addToBackStack(null);
+				transaction.commit();
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

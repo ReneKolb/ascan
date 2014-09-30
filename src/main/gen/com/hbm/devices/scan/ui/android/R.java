@@ -28,7 +28,7 @@ public final class R {
         public static final int RelativeLayout1=0x7f070018;
         public static final int RelativeLayout2=0x7f07001b;
         public static final int ScrollView1=0x7f070026;
-        public static final int action_filters=0x7f070036;
+        public static final int action_filters=0x7f070037;
         public static final int action_settings=0x7f070035;
         public static final int add_filter_label=0x7f07001c;
         public static final int configure_gateway_ip_edit=0x7f07000e;
@@ -68,11 +68,12 @@ public final class R {
         public static final int moduleType=0x7f070010;
         public static final int moduleUUID=0x7f070011;
         public static final int netSettingsLabel=0x7f07002e;
-        public static final int popup_configure=0x7f070039;
-        public static final int popup_open_browser=0x7f070037;
-        public static final int popup_show_settings=0x7f070038;
+        public static final int popup_configure=0x7f07003a;
+        public static final int popup_open_browser=0x7f070038;
+        public static final int popup_show_settings=0x7f070039;
         public static final int router=0x7f070013;
         public static final int scrollView=0x7f070000;
+        public static final int search=0x7f070036;
         public static final int services_label=0x7f070033;
         public static final int services_list_view=0x7f070034;
     }
@@ -127,5 +128,6 @@ public final class R {
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
+        public static final int searchable=0x7f040001;
     }
 }

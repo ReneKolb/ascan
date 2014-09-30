@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -34,7 +33,6 @@ import com.hbm.devices.scan.CommunicationPath;
 import com.hbm.devices.scan.events.LostDeviceEvent;
 import com.hbm.devices.scan.events.NewDeviceEvent;
 import com.hbm.devices.scan.events.UpdateDeviceEvent;
-import com.hbm.devices.scan.filter.Filter;
 import com.hbm.devices.scan.messages.Device;
 
 public class DeviceFragment extends ListFragment implements
@@ -66,24 +64,20 @@ public class DeviceFragment extends ListFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ScanActivity.enableFilterButton = true;
 		getActivity().getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		scanThread = new ScanThread(adapter, useFakeMessages, ((ScanActivity)getActivity()).filterList);
+		scanThread = new ScanThread(adapter, useFakeMessages,
+				((ScanActivity) getActivity()).filterList);
 		scanThread.start();
 
 	}
 
-//	public void updateFilterList(LinkedList<Filter> filterList) {
-//		this.filterList = filterList;
-//
-//		// onResume, Restart....??
-//	}
-
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		ScanActivity.enableFilterButton = false;
 		scanThread.kill();
 		try {
 			scanThread.join();
@@ -190,6 +184,10 @@ public class DeviceFragment extends ListFragment implements
 
 		return true;
 	}
+
+	public void updateFilterString(String newFilter) {
+		this.adapter.setFilterString(newFilter);
+	}
 }
 
 class ModuleListAdapter extends BaseAdapter {
@@ -198,7 +196,10 @@ class ModuleListAdapter extends BaseAdapter {
 	private static final int DARK_OLIVE_GREEN = Color.rgb(85, 107, 47);
 	private Activity activity;
 	private LayoutInflater layoutInflater;
-	private ArrayList<CommunicationPath> entries;
+	private String filterString = null;
+
+	private ArrayList<CommunicationPath> collectedEntries;
+	private ArrayList<CommunicationPath> filteredEntries;
 	private Comparator<CommunicationPath> listComparator;
 
 	public ModuleListAdapter(Fragment fragment, Bitmap routerBitmap) {
@@ -206,23 +207,26 @@ class ModuleListAdapter extends BaseAdapter {
 		activity = fragment.getActivity();
 		layoutInflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		entries = new ArrayList<CommunicationPath>();
+		collectedEntries = new ArrayList<CommunicationPath>();
+		filteredEntries = new ArrayList<CommunicationPath>();
+
 		listComparator = new UuidComparator();
 	}
 
 	public void clearEntries() {
-		entries.clear();
+		collectedEntries.clear();
+		filteredEntries.clear();
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
-		return entries.size();
+		return filteredEntries.size();
 	}
 
 	@Override
 	public CommunicationPath getItem(int position) {
-		return entries.get(position);
+		return filteredEntries.get(position);
 	}
 
 	@Override
@@ -232,10 +236,6 @@ class ModuleListAdapter extends BaseAdapter {
 
 	@Override
 	public boolean isEnabled(int position) {
-		// is the item clickable?
-		// CommunicationPath cp = (CommunicationPath) entries.get(position);
-		// Device device = cp.getAnnounce().getParams().getDevice();
-		// return (cp.cookie != null) || (device.isRouter());
 		return true;
 	}
 
@@ -260,7 +260,7 @@ class ModuleListAdapter extends BaseAdapter {
 			viewHolder = (ViewHolderItem) convertView.getTag();
 		}
 
-		CommunicationPath cp = entries.get(position);
+		CommunicationPath cp = filteredEntries.get(position);
 		if (cp != null) {
 			InetAddress connectAddress = (InetAddress) cp.cookie;
 			int color;
@@ -288,25 +288,50 @@ class ModuleListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	public void setFilterString(String newFilterString) {
+		this.filterString = newFilterString.toUpperCase();
+		updateFilterEntries();
+		notifyDataSetChanged();
+	}
+
+	private void updateFilterEntries() {
+		this.filteredEntries.clear();
+		if (filterString == null) {
+			filteredEntries.addAll(collectedEntries);
+		} else {
+			for (CommunicationPath path : collectedEntries) {
+				Device dev = path.getAnnounce().getParams().getDevice();
+				if (dev.getType().toUpperCase().contains(filterString)
+						|| dev.getUuid().toUpperCase().contains(filterString)
+						|| dev.getName().toUpperCase().contains(filterString)) {
+					filteredEntries.add(path);
+				}
+			}
+		}
+	}
+
 	public void updateEntries(final Object arg) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				if (arg instanceof NewDeviceEvent) {
 					NewDeviceEvent event = (NewDeviceEvent) arg;
 					CommunicationPath cp = event.getAnnouncePath();
-					entries.add(cp);
-					Collections.sort(entries, listComparator);
+					collectedEntries.add(cp);
+					Collections.sort(collectedEntries, listComparator);
 				} else if (arg instanceof LostDeviceEvent) {
 					LostDeviceEvent event = (LostDeviceEvent) arg;
 					CommunicationPath cp = event.getAnnouncePath();
-					entries.remove(cp);
-					Collections.sort(entries, listComparator);
+					collectedEntries.remove(cp);
+					Collections.sort(collectedEntries, listComparator);
 				} else if (arg instanceof UpdateDeviceEvent) {
 					UpdateDeviceEvent event = (UpdateDeviceEvent) arg;
-					entries.remove(event.getOldCommunicationPath());
-					entries.add(event.getNewCommunicationPath());
-					Collections.sort(entries, listComparator);
+					collectedEntries.remove(event.getOldCommunicationPath());
+					collectedEntries.add(event.getNewCommunicationPath());
+					Collections.sort(collectedEntries, listComparator);
 				}
+
+				updateFilterEntries();
+
 				notifyDataSetChanged();
 			}
 		});

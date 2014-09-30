@@ -81,6 +81,7 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		nameView.setText(device.getName());
 
 		TextView labelView = (TextView) view.findViewById(R.id.DeviceLabel);
+		labelView.setText("");
 		// labelView
 		// .setText("Label... nicht in Device object, aber in spezifikation!");
 

@@ -78,14 +78,22 @@ class ScanThread extends Thread implements Observer {
 	}
 
 	public void kill() {
-		announceReceiver.stop();
-		announceReceiver.deleteObservers();
-		parser.deleteObservers();
-		for (Filter filter : this.filterList) {
-			filter.deleteObservers();
+		if (announceReceiver != null) {
+			announceReceiver.stop();
+			announceReceiver.deleteObservers();
 		}
-		deviceMonitor.stop();
-		deviceMonitor.deleteObservers();
+		if (parser != null) {
+			parser.deleteObservers();
+		}
+		if (filterList != null) {
+			for (Filter filter : this.filterList) {
+				filter.deleteObservers();
+			}
+		}
+		if (deviceMonitor != null) {
+			deviceMonitor.stop();
+			deviceMonitor.deleteObservers();
+		}
 	}
 
 	public void update(Observable o, Object arg) {
