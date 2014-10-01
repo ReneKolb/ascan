@@ -99,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/interfacesLabel"
+            android:layout_marginLeft="24dp"
             android:orientation="vertical" >
 
         </LinearLayout>
@@ -118,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/default_gateway_label"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="24dp"
             android:text="@string/settings_display_gateway_ipv4" />
 
         <TextView
@@ -127,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/gateway_ipv4_view"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="24dp"
             android:text="@string/settings_display_gateway_ipv6" />
 
         <TextView
@@ -146,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/services_label"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="24dp"
             android:orientation="vertical" >
 
         </LinearLayout>

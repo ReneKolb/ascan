@@ -26,13 +26,9 @@ public class FilterFragment extends Fragment implements OnItemClickListener {
 
 	private FilterListAdapter adapter;
 
-	public FilterFragment(){
-		this.activity = (ScanActivity) ScanActivity.act;
+	public FilterFragment() {
+		this.activity = (ScanActivity) ScanActivity.activity;
 	}
-	
-//	public FilterFragment(ScanActivity activity) {
-//		this.activity = activity;
-//	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -12,9 +12,11 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_action_edit=0x7f020000;
-        public static final int ic_action_search=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int ic_router=0x7f020003;
+        public static final int ic_action_pause=0x7f020001;
+        public static final int ic_action_play=0x7f020002;
+        public static final int ic_action_search=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int ic_router=0x7f020005;
     }
     public static final class id {
         public static final int DeviceFamilyType=0x7f07002b;
@@ -27,7 +29,8 @@ public final class R {
         public static final int RelativeLayout1=0x7f070018;
         public static final int RelativeLayout2=0x7f07001b;
         public static final int ScrollView1=0x7f070025;
-        public static final int action_filters=0x7f070037;
+        public static final int action_filters=0x7f070038;
+        public static final int action_pause_control=0x7f070037;
         public static final int action_settings=0x7f070035;
         public static final int add_filter_label=0x7f07001c;
         public static final int configure_gateway_ip_edit=0x7f07000e;
@@ -67,9 +70,9 @@ public final class R {
         public static final int moduleType=0x7f070010;
         public static final int moduleUUID=0x7f070011;
         public static final int netSettingsLabel=0x7f07002d;
-        public static final int popup_configure=0x7f07003a;
-        public static final int popup_open_browser=0x7f070038;
-        public static final int popup_show_settings=0x7f070039;
+        public static final int popup_configure=0x7f07003b;
+        public static final int popup_open_browser=0x7f070039;
+        public static final int popup_show_settings=0x7f07003a;
         public static final int router=0x7f070013;
         public static final int scrollView=0x7f070000;
         public static final int search=0x7f070036;
@@ -119,6 +122,7 @@ public final class R {
         public static final int interfaces_caption=0x7f05000a;
         public static final int ip_item_ip_address=0x7f050022;
         public static final int menu_filters=0x7f050018;
+        public static final int menu_pause_option=0x7f05002e;
         public static final int menu_search_tiel=0x7f050023;
         public static final int netSettings_caption=0x7f050009;
         public static final int popup_configure=0x7f050008;
@@ -127,6 +131,7 @@ public final class R {
         public static final int pref_debug=0x7f050002;
         public static final int routed_device_default_Text=0x7f050024;
         public static final int router=0x7f050001;
+        public static final int scan_activity_titel_label=0x7f05002f;
         public static final int services_label=0x7f05000c;
         public static final int settings_display_device_familiy_type=0x7f050028;
         public static final int settings_display_device_firmware=0x7f05002a;

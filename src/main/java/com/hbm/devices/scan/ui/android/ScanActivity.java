@@ -26,20 +26,20 @@ public class ScanActivity extends Activity implements
 	public static CommunicationPath lastShownCommunicationPath = null;
 	public static AnnounceParams lastConfiguredParams = null;
 
-	private DeviceFragment deviceFragment;
+	public DeviceFragment deviceFragment;
 
 	public LinkedList<Filter> filterList;
 
 	public static boolean enableFilterButton;
-	
-	public static ScanActivity act;
+
+	public static ScanActivity activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		act = this;
-		
+		activity = this;
+
 		this.filterList = new LinkedList<Filter>();
 		enableFilterButton = true;
 
@@ -71,7 +71,7 @@ public class ScanActivity extends Activity implements
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			onBackPressed();
+			getFragmentManager().popBackStack();
 			return true;
 		default:
 			return super.onMenuItemSelected(featureId, item);
@@ -79,7 +79,7 @@ public class ScanActivity extends Activity implements
 
 	}
 
-	private void shouldDisplayHomeUp() {
+	void shouldDisplayHomeUp() {
 		boolean canback = getFragmentManager().getBackStackEntryCount() > 0;
 		getActionBar().setDisplayHomeAsUpEnabled(canback);
 	}
@@ -89,9 +89,6 @@ public class ScanActivity extends Activity implements
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
 
-		// Associate searchable configuration with the SearchView
-		// SearchManager searchManager = (SearchManager)
-		// getSystemService(Context.SEARCH_SERVICE);
 		SearchView searchView = (SearchView) menu.findItem(R.id.search)
 				.getActionView();
 
@@ -113,9 +110,6 @@ public class ScanActivity extends Activity implements
 			}
 		});
 
-		// searchView.setSearchableInfo(searchManager
-		// .getSearchableInfo(getComponentName()));
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -125,6 +119,15 @@ public class ScanActivity extends Activity implements
 		case R.id.action_settings:
 			startActivity(new Intent(getApplicationContext(),
 					SettingsActivity.class));
+			return true;
+		case R.id.action_pause_control:
+			if (this.deviceFragment.isPaused()) {
+				item.setIcon(R.drawable.ic_action_pause);
+				this.deviceFragment.resumeDeviceUpdates();
+			} else {
+				item.setIcon(R.drawable.ic_action_play);
+				this.deviceFragment.pauseDeviceUpdates();
+			}
 			return true;
 		case R.id.action_filters:
 			if (enableFilterButton) {

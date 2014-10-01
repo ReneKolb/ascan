@@ -24,8 +24,6 @@ class ScanThread extends Thread implements Observer {
 
 	private LinkedList<Filter> filterList;
 
-	// private Filter filter;
-
 	private DeviceMonitor deviceMonitor;
 	private ConnectionFinder connectionFinder;
 	private boolean useFakeMessages;
@@ -60,12 +58,6 @@ class ScanThread extends Thread implements Observer {
 					lastObservable = filter;
 				}
 			}
-
-			// String[] families = { "QuantumX" };
-			// filter = new Filter(new FamilytypeMatch(families));
-			// String[] uuids = { "0009E5001571" };
-			// filter = new Filter(new UUIDMatch(uuids));
-			// parser.addObserver(filter);
 
 			deviceMonitor = new DeviceMonitor();
 			lastObservable.addObserver(deviceMonitor);
@@ -105,7 +97,6 @@ class ScanThread extends Thread implements Observer {
 					.getConnectableAddress(cp.getAnnounce());
 			adapter.updateEntries(arg);
 		} else if (arg instanceof LostDeviceEvent) {
-			// ap = ((UnregisterDeviceEvent)arg).getAnnouncePath();
 			adapter.updateEntries(arg);
 		} else if (arg instanceof UpdateDeviceEvent) {
 			adapter.updateEntries(arg);

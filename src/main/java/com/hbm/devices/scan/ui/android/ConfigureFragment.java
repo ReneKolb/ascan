@@ -32,12 +32,6 @@ public class ConfigureFragment extends Fragment {
 
 	private ConfigServiceThread configThread;
 
-	// use setArguments(Bundle)
-	// public ConfigureFragment(AnnounceParams oldParams) {
-	// ScanActivity.lastConfiguredParams = oldParams;
-	// this.oldParams = oldParams;
-	// }
-
 	public ConfigureFragment() {
 		this.oldParams = ScanActivity.lastConfiguredParams;
 	}
@@ -174,11 +168,9 @@ public class ConfigureFragment extends Fragment {
 					netMask = subnetEdit.getText().toString();
 				}
 
-				String gatewayIp;
-				if (gatewayIpEdit.getText() == null
-						|| gatewayIpEdit.getText().length() == 0) {
-					gatewayIp = gatewayIpEdit.getHint().toString();
-				} else {
+				String gatewayIp = null;
+				if (gatewayIpEdit.getText() != null
+						&& gatewayIpEdit.getText().length() > 0) {
 					gatewayIp = gatewayIpEdit.getText().toString();
 				}
 
@@ -193,7 +185,7 @@ public class ConfigureFragment extends Fragment {
 				}
 
 				NetSettings settings;
-				if (gatewayIp != null && gatewayIp.length() > 0) {
+				if (gatewayIp != null) {
 					settings = new NetSettings(interfaceSettings,
 							new DefaultGateway(gatewayIp, null));
 				} else {
@@ -201,9 +193,6 @@ public class ConfigureFragment extends Fragment {
 				}
 
 				ConfigureParams params = new ConfigureParams(device, settings);
-
-				// configService.sendConfiguration(params, callback, timeout)
-				// sendConfiguration
 
 				final Toast sendToast = Toast.makeText(
 						ConfigureFragment.this.getActivity(),

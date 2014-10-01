@@ -47,5 +47,7 @@
     <string name="settings_display_gateway_ipv4">Gateway IPv4</string>
     <string name="settings_display_gateway_ipv6">Gateway IPv6</string>
     <string name="settings_display_device_router">Router</string>
+    <string name="menu_pause_option">Pause/Resume</string>
+    <string name="scan_activity_titel_label"></string>
 
 </resources>

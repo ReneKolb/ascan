@@ -42,6 +42,8 @@ public class DeviceFragment extends ListFragment implements
 	private ModuleListAdapter adapter;
 	private ScanThread scanThread;
 
+	// private boolean updateList=true;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +57,8 @@ public class DeviceFragment extends ListFragment implements
 
 		adapter = new ModuleListAdapter(this, routerBitmap);
 		setListAdapter(adapter);
+		
+		((ScanActivity)getActivity()).deviceFragment = this;
 	}
 
 	@Override
@@ -87,11 +91,25 @@ public class DeviceFragment extends ListFragment implements
 		adapter.clearEntries();
 	}
 
+	public void pauseDeviceUpdates() {
+		this.adapter.updateEntries = false;
+	}
+
+	public void resumeDeviceUpdates() {
+		this.adapter.updateEntries = true;
+		this.adapter.updateFilterEntries();
+		this.adapter.notifyDataSetChanged();
+	}
+
+	public boolean isPaused() {
+		return !this.adapter.updateEntries;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.device_list, container, false);
-		getActivity().getActionBar().setTitle(R.string.app_name);
+//		getActivity().getActionBar().setTitle(R.string.app_name);
 		return view;
 	}
 
@@ -201,6 +219,8 @@ class ModuleListAdapter extends BaseAdapter {
 	private LayoutInflater layoutInflater;
 	private String filterString = null;
 
+	public boolean updateEntries = true;
+
 	private ArrayList<CommunicationPath> collectedEntries;
 	private ArrayList<CommunicationPath> filteredEntries;
 	private Comparator<CommunicationPath> listComparator;
@@ -297,7 +317,7 @@ class ModuleListAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void updateFilterEntries() {
+	void updateFilterEntries() {
 		this.filteredEntries.clear();
 		if (filterString == null) {
 			filteredEntries.addAll(collectedEntries);
@@ -341,9 +361,10 @@ class ModuleListAdapter extends BaseAdapter {
 					Collections.sort(collectedEntries, listComparator);
 				}
 
-				updateFilterEntries();
-
-				notifyDataSetChanged();
+				if (updateEntries) {
+					updateFilterEntries();
+					notifyDataSetChanged();
+				}
 			}
 		});
 	}

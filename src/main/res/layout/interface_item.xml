@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="36dp"
         android:text="@string/interface_item_interface_name" />
 
     <TextView
@@ -26,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/interfaceConfigMethod"
         android:layout_below="@+id/interfaceConfigMethod"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:orientation="vertical" >
     </LinearLayout>
 

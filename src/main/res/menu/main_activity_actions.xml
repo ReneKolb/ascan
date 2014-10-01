@@ -10,6 +10,12 @@
         android:showAsAction="ifRoom"
         android:title="@string/menu_search_tiel"/>
     <item
+        android:id="@+id/action_pause_control"
+        android:icon="@drawable/ic_action_pause"
+        android:showAsAction="always"
+        android:title="@string/menu_pause_option">
+    </item>
+    <item
         android:id="@+id/action_filters"
         android:icon="@drawable/ic_action_edit"
         android:showAsAction="ifRoom"
