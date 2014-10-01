@@ -35,6 +35,7 @@ public class ConfigureFragment extends Fragment {
 	public ConfigureFragment() {
 		this.oldParams = ScanActivity.lastConfiguredParams;
 	}
+	
 
 	@Override
 	public void onResume() {
@@ -272,7 +273,6 @@ public class ConfigureFragment extends Fragment {
 
 			}
 		});
-
 		return view;
 	}
 

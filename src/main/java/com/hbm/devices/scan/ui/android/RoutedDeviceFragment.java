@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 
 public class RoutedDeviceFragment extends Fragment {
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.routed_device_list, container, false);
-		getActivity().getActionBar().setTitle("bla");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.routed_device_list, container,
+				false);
+		// getActivity().getActionBar().setTitle("bla");
 		return view;
 	}
 }
-

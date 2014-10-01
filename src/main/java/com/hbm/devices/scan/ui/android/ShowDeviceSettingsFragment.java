@@ -28,7 +28,7 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		if (this.communicationPath == null) {
 		}
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -90,7 +90,6 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		}
 
 		this.fillServices(view, servicesList);
-
 		return view;
 	}
 

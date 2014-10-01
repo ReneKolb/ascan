@@ -31,6 +31,7 @@ public final class R {
         public static final int ScrollView1=0x7f070025;
         public static final int action_filters=0x7f070038;
         public static final int action_pause_control=0x7f070037;
+        public static final int action_search=0x7f070036;
         public static final int action_settings=0x7f070035;
         public static final int add_filter_label=0x7f07001c;
         public static final int configure_gateway_ip_edit=0x7f07000e;
@@ -75,7 +76,6 @@ public final class R {
         public static final int popup_show_settings=0x7f07003a;
         public static final int router=0x7f070013;
         public static final int scrollView=0x7f070000;
-        public static final int search=0x7f070036;
         public static final int services_label=0x7f070033;
         public static final int settings_display_interfaces_List=0x7f07002f;
         public static final int settings_display_services_list=0x7f070034;

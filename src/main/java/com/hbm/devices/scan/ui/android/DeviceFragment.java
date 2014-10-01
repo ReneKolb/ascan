@@ -57,8 +57,8 @@ public class DeviceFragment extends ListFragment implements
 
 		adapter = new ModuleListAdapter(this, routerBitmap);
 		setListAdapter(adapter);
-		
-		((ScanActivity)getActivity()).deviceFragment = this;
+
+		((ScanActivity) getActivity()).deviceFragment = this;
 	}
 
 	@Override
@@ -73,16 +73,27 @@ public class DeviceFragment extends ListFragment implements
 		getActivity().getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+		ScanActivity sa = (ScanActivity) getActivity();
+		if (sa.optionsMenu != null) {
+			sa.optionsMenu.findItem(R.id.action_pause_control).setEnabled(true);
+			sa.optionsMenu.findItem(R.id.action_search).setEnabled(true);
+		}
+
 		scanThread = new ScanThread(adapter, useFakeMessages,
 				((ScanActivity) getActivity()).filterList);
 		scanThread.start();
-
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		ScanActivity.enableFilterButton = false;
+		ScanActivity sa = (ScanActivity) getActivity();
+		if (sa.optionsMenu != null) {
+			sa.optionsMenu.findItem(R.id.action_pause_control)
+					.setEnabled(false);
+			sa.optionsMenu.findItem(R.id.action_search).setEnabled(false);
+		}
 		scanThread.kill();
 		try {
 			scanThread.join();
@@ -109,7 +120,7 @@ public class DeviceFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.device_list, container, false);
-//		getActivity().getActionBar().setTitle(R.string.app_name);
+		// getActivity().getActionBar().setTitle(R.string.app_name);
 		return view;
 	}
 

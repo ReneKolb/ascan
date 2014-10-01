@@ -33,6 +33,7 @@ public class ScanActivity extends Activity implements
 	public static boolean enableFilterButton;
 
 	public static ScanActivity activity;
+	public Menu optionsMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class ScanActivity extends Activity implements
 
 	}
 
-	void shouldDisplayHomeUp() {
+	private void shouldDisplayHomeUp() {
 		boolean canback = getFragmentManager().getBackStackEntryCount() > 0;
 		getActionBar().setDisplayHomeAsUpEnabled(canback);
 	}
@@ -88,15 +89,16 @@ public class ScanActivity extends Activity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
-
-		SearchView searchView = (SearchView) menu.findItem(R.id.search)
-				.getActionView();
+		this.optionsMenu = menu;
+		final SearchView searchView = (SearchView) menu.findItem(
+				R.id.action_search).getActionView();
 
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				if (deviceFragment != null) {
 					deviceFragment.updateFilterString(query);
+					searchView.clearFocus();
 				}
 				return true;
 			}
