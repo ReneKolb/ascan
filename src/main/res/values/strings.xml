@@ -23,14 +23,29 @@
     <string name="configure_subnet_label">Subnetmask:</string>
     <string name="configure_gateway_label">Default gateway:</string>
     <string name="configure_gateway_ip_label">IP-address</string>
-    <string name="configure_gateway_subnet_label">Subnetmask:</string>
     <string name="configure_ready_button">Ready</string>
     <string name="popup_open_browser">Open Browser</string>
-    <string name="menu_filters">Filters...</string>
+    <string name="menu_filters">Filters&#8230;</string>
     <string name="filters_label">Capture filters:</string>
     <string name="add_filter_label">Add filter:</string>
     <string name="filter_add_family_type_btn">Familiy type</string>
     <string name="filter_add_uuid_btn">UUID</string>
     <string name="filter_string_label">Filter String:</string>
+    <string name="filter_item_filter_string">Filter string</string>
+    <string name="filter_item_filter_type">Filter type</string>
+    <string name="interface_item_interface_name">Interface name</string>
+    <string name="interface_item_config_method">Configuration method</string>
+    <string name="ip_item_ip_address">IP address</string>
+    <string name="menu_search_tiel">Search</string>
+    <string name="routed_device_default_Text">Router placeholder</string>
+    <string name="settings_display_device_name">Device name</string>
+    <string name="settings_display_device_label">Label</string>
+    <string name="settings_display_device_uuid">UUID</string>
+    <string name="settings_display_device_familiy_type">Family type</string>
+    <string name="settings_display_device_type">Type</string>
+    <string name="settings_display_device_firmware">Firmware version</string>
+    <string name="settings_display_gateway_ipv4">Gateway IPv4</string>
+    <string name="settings_display_gateway_ipv6">Gateway IPv6</string>
+    <string name="settings_display_device_router">Router</string>
 
 </resources>

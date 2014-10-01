@@ -8,13 +8,13 @@
         android:id="@+id/filter_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Medium Text"
+        android:text="@string/filter_item_filter_type"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/filter_string"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="@string/filter_item_filter_string" />
 
 </LinearLayout>

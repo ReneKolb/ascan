@@ -21,6 +21,7 @@ import com.hbm.devices.configure.NetSettings;
 import com.hbm.devices.scan.MissingDataException;
 import com.hbm.devices.scan.messages.AnnounceParams;
 import com.hbm.devices.scan.messages.ConfigureParams;
+import com.hbm.devices.scan.messages.DefaultGateway;
 import com.hbm.devices.scan.messages.IPv4EntryManual;
 import com.hbm.devices.scan.messages.Interface.Method;
 import com.hbm.devices.scan.messages.Response;
@@ -31,10 +32,11 @@ public class ConfigureFragment extends Fragment {
 
 	private ConfigServiceThread configThread;
 
-	public ConfigureFragment(AnnounceParams oldParams) {
-		ScanActivity.lastConfiguredParams = oldParams;
-		this.oldParams = oldParams;
-	}
+	// use setArguments(Bundle)
+	// public ConfigureFragment(AnnounceParams oldParams) {
+	// ScanActivity.lastConfiguredParams = oldParams;
+	// this.oldParams = oldParams;
+	// }
 
 	public ConfigureFragment() {
 		this.oldParams = ScanActivity.lastConfiguredParams;
@@ -60,6 +62,10 @@ public class ConfigureFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		if (container == null) {
+			return null;
+		}
+
 		View view = inflater.inflate(R.layout.configure_layout, container,
 				false);
 
@@ -185,7 +191,15 @@ public class ConfigureFragment extends Fragment {
 					interfaceSettings = new Interface(interfaceName, method,
 							null);
 				}
-				NetSettings settings = new NetSettings(interfaceSettings);
+
+				NetSettings settings;
+				if (gatewayIp != null && gatewayIp.length() > 0) {
+					settings = new NetSettings(interfaceSettings,
+							new DefaultGateway(gatewayIp, null));
+				} else {
+					settings = new NetSettings(interfaceSettings);
+				}
+
 				ConfigureParams params = new ConfigureParams(device, settings);
 
 				// configService.sendConfiguration(params, callback, timeout)

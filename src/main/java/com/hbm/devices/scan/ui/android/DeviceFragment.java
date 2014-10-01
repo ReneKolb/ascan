@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -102,8 +103,9 @@ public class DeviceFragment extends ListFragment implements
 	}
 
 	private void showDeviceSettings(CommunicationPath communicationPath) {
-		ShowDeviceSettingsFragment settingsFrag = new ShowDeviceSettingsFragment(
-				communicationPath);
+		ScanActivity.lastShownCommunicationPath = communicationPath;
+		ShowDeviceSettingsFragment settingsFrag = new ShowDeviceSettingsFragment();
+
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
 		transaction.replace(R.id.fragment_container, settingsFrag);
@@ -112,8 +114,9 @@ public class DeviceFragment extends ListFragment implements
 	}
 
 	private void showConfigure(CommunicationPath comPath) {
-		ConfigureFragment configFragment = new ConfigureFragment(comPath
-				.getAnnounce().getParams());
+		ScanActivity.lastConfiguredParams = comPath.getAnnounce().getParams();
+		ConfigureFragment configFragment = new ConfigureFragment();
+
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
 		transaction.replace(R.id.fragment_container, configFragment);
@@ -289,7 +292,7 @@ class ModuleListAdapter extends BaseAdapter {
 	}
 
 	public void setFilterString(String newFilterString) {
-		this.filterString = newFilterString.toUpperCase();
+		this.filterString = newFilterString.toUpperCase(Locale.getDefault());
 		updateFilterEntries();
 		notifyDataSetChanged();
 	}
@@ -301,9 +304,17 @@ class ModuleListAdapter extends BaseAdapter {
 		} else {
 			for (CommunicationPath path : collectedEntries) {
 				Device dev = path.getAnnounce().getParams().getDevice();
-				if (dev.getType().toUpperCase().contains(filterString)
-						|| dev.getUuid().toUpperCase().contains(filterString)
-						|| dev.getName().toUpperCase().contains(filterString)) {
+				if (filterString == null
+						|| filterString.length() == 0
+						|| (dev.getType() != null && dev.getType()
+								.toUpperCase(Locale.getDefault())
+								.contains(filterString))
+						|| (dev.getUuid() != null && dev.getUuid()
+								.toUpperCase(Locale.getDefault())
+								.contains(filterString))
+						|| (dev.getName() != null && dev.getName()
+								.toUpperCase(Locale.getDefault())
+								.contains(filterString))) {
 					filteredEntries.add(path);
 				}
 			}

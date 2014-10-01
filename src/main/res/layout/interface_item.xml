@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="36dp"
-        android:text="TextView" />
+        android:text="@string/interface_item_interface_name" />
 
     <TextView
         android:id="@+id/interfaceConfigMethod"
@@ -18,15 +18,16 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/interfaceNameView"
         android:layout_below="@+id/interfaceNameView"
-        android:text="TextView" />
+        android:text="@string/interface_item_config_method" />
 
-    <ListView
-        android:id="@+id/interfacesListView"
+    <LinearLayout
+        android:id="@+id/interface_item_ip_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/interfaceConfigMethod"
         android:layout_below="@+id/interfaceConfigMethod"
-        android:layout_marginLeft="10dp" >
-    </ListView>
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </RelativeLayout>

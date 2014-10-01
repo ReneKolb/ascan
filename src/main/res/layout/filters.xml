@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/interface_item_ip_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
     android:orientation="horizontal" >
 
     <RelativeLayout
@@ -80,7 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/filter_string_label"
             android:layout_below="@+id/filter_string_label"
-            android:ems="10" >
+            android:ems="10"
+            android:inputType="text" >
 
             <requestFocus />
         </EditText>

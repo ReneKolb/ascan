@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <TextView
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Device Name"
+            android:text="@string/settings_display_device_name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceName"
-            android:text="label"
+            android:text="@string/settings_display_device_label"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceLabel"
             android:layout_marginTop="15dp"
-            android:text="UUID" />
+            android:text="@string/settings_display_device_uuid" />
 
         <TextView
             android:id="@+id/DeviceRouter"
@@ -45,7 +45,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceFirmware"
             android:layout_marginTop="15dp"
-            android:text="Router" />
+            android:text="@string/settings_display_device_router" />
 
         <TextView
             android:id="@+id/DeviceFamilyType"
@@ -54,7 +54,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceUUID"
             android:layout_marginTop="15dp"
-            android:text="FamilyType" />
+            android:text="@string/settings_display_device_familiy_type" />
 
         <TextView
             android:id="@+id/DeviceType"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceFamilyType"
-            android:text="type" />
+            android:text="@string/settings_display_device_type" />
 
         <TextView
             android:id="@+id/DeviceFirmware"
@@ -71,7 +71,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/DeviceType"
             android:layout_marginTop="15dp"
-            android:text="FirmwareVers"
+            android:text="@string/settings_display_device_firmware"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -93,20 +93,22 @@
             android:layout_marginTop="24dp"
             android:text="@string/interfaces_caption" />
 
-        <ListView
-            android:id="@+id/interfacesListView"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/settings_display_interfaces_List"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/interfacesLabel" >
-        </ListView>
+            android:layout_below="@+id/interfacesLabel"
+            android:orientation="vertical" >
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/default_gateway_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/interfacesListView"
+            android:layout_below="@+id/settings_display_interfaces_List"
             android:layout_marginTop="24dp"
             android:text="@string/DefaultGateway" />
 
@@ -117,7 +119,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/default_gateway_label"
             android:layout_marginLeft="10dp"
-            android:text="TextView" />
+            android:text="@string/settings_display_gateway_ipv4" />
 
         <TextView
             android:id="@+id/gateway_ipv6_view"
@@ -126,7 +128,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/gateway_ipv4_view"
             android:layout_marginLeft="10dp"
-            android:text="TextView" />
+            android:text="@string/settings_display_gateway_ipv6" />
 
         <TextView
             android:id="@+id/services_label"
@@ -138,13 +140,16 @@
             android:text="@string/services_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <ListView
-            android:id="@+id/services_list_view"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/settings_display_services_list"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/services_label"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/services_label" >
-        </ListView>
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </ScrollView>

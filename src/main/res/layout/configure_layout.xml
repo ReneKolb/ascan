@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/configure_header_label"
@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/configure_interface_name_label"
-            android:ems="10" >
+            android:ems="10"
+            android:inputType="text" >
 
             <requestFocus />
         </EditText>
@@ -83,7 +84,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/configure_ip_address_label"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/configure_subnet_label"
@@ -99,7 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/configure_subnet_label"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/configure_gateway_label"
@@ -125,7 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/configure_gateway_ip_label"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="text" />
 
         <Button
             android:id="@+id/configure_ready_button"
