@@ -57,6 +57,7 @@ public class ScanActivity extends Activity implements
 			getFragmentManager().beginTransaction()
 					.add(R.id.fragment_container, deviceFragment).commit();
 		}
+		this.getActionBar().setDisplayShowTitleEnabled(false);
 	}
 
 	public void updateFilterSettings(LinkedList<Filter> filterList) {

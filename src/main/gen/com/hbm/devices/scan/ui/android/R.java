@@ -131,7 +131,6 @@ public final class R {
         public static final int pref_debug=0x7f050002;
         public static final int routed_device_default_Text=0x7f050024;
         public static final int router=0x7f050001;
-        public static final int scan_activity_titel_label=0x7f05002f;
         public static final int services_label=0x7f05000c;
         public static final int settings_display_device_familiy_type=0x7f050028;
         public static final int settings_display_device_firmware=0x7f05002a;
