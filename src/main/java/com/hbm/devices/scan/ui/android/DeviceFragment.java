@@ -79,6 +79,10 @@ public class DeviceFragment extends ListFragment implements
 			sa.optionsMenu.findItem(R.id.action_search).setEnabled(true);
 		}
 
+		SharedPreferences sharedPref = PreferenceManager
+				.getDefaultSharedPreferences(this.getActivity());
+		useFakeMessages = sharedPref.getBoolean("fake_messages", false);
+
 		scanThread = new ScanThread(adapter, useFakeMessages,
 				((ScanActivity) getActivity()).filterList);
 		scanThread.start();
