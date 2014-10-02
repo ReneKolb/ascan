@@ -31,6 +31,12 @@ public class FilterFragment extends Fragment implements OnItemClickListener {
 	}
 
 	@Override
+	public void onResume(){
+		super.onResume();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.filters, container, false);

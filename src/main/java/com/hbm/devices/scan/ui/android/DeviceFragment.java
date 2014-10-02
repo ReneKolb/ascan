@@ -82,6 +82,7 @@ public class DeviceFragment extends ListFragment implements
 		scanThread = new ScanThread(adapter, useFakeMessages,
 				((ScanActivity) getActivity()).filterList);
 		scanThread.start();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	@Override

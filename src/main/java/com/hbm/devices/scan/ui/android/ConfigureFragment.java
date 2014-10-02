@@ -42,6 +42,7 @@ public class ConfigureFragment extends Fragment {
 		super.onResume();
 		this.configThread = new ConfigServiceThread();
 		configThread.start();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

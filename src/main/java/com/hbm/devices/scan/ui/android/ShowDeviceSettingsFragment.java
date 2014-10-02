@@ -28,7 +28,13 @@ public class ShowDeviceSettingsFragment extends Fragment {
 		if (this.communicationPath == null) {
 		}
 	}
-	
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
